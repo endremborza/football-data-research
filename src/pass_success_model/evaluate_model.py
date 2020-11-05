@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import shap
+import yaml
 
 from sklearn.metrics import (
     f1_score,
@@ -109,7 +110,9 @@ def dump_model_evaluation():
     pred_probas = trained_pipeline.predict_proba(x_test_df)
     y_score = pred_probas[:, 1]
 
-    get_metrics(y_test_df, preds, y_score)
+    with open(os.path.join(pass_success_model_eval_dir, "metrics.yaml"), "w") as fp:
+        yaml.dump(get_metrics(y_test_df, preds, y_score), fp)
+
     plot_success_bars(y_test_df, y_score)
     plot_cm(y_test_df, preds)
     plot_roc(y_test_df, y_score, trained_pipeline)

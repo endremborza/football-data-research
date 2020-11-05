@@ -36,7 +36,9 @@ class PipelineElement:
         self.runner(**parsed_params)
 
     def get_invoke_task(self):
-        param_str = ",".join([(".".join([self.name, p]) if p != "seed" else p) for p in self.param_list])
+        param_str = ",".join(
+            [(".".join([self.name, p]) if p != "seed" else p) for p in self.param_list]
+        )
         if param_str:
             param_str = "-p " + param_str
         dep_str = " -d ".join(
