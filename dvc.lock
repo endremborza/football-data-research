@@ -15,3 +15,14 @@ train_pass_success_model:
   outs:
   - path: models/pass_success_lgbm.joblib
     md5: e49eeab29708c4fd311ffd3661b23d6f
+evaluate_pass_success_model:
+  cmd: python -m src evaluate_pass_success_model
+  deps:
+  - path: models/pass_success_lgbm.joblib
+    md5: e49eeab29708c4fd311ffd3661b23d6f
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: reports/pass_success_model_evaluation
+    md5: 092ecf2f5749fd19727496d55a9a7d61.dir

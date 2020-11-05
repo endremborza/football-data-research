@@ -12,3 +12,11 @@ stages:
     - train_pass_success_model.split
     outs:
     - models/pass_success_lgbm.joblib
+  evaluate_pass_success_model:
+    cmd: python -m src evaluate_pass_success_model
+    deps:
+    - models/pass_success_lgbm.joblib
+    params:
+    - seed
+    outs:
+    - reports/pass_success_model_evaluation
