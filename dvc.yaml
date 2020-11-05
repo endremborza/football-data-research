@@ -28,3 +28,11 @@ stages:
     - seed
     outs:
     - data/networks
+  create_style_data:
+    cmd: python -m src create_style_data
+    deps:
+    - data/networks
+    params:
+    - seed
+    outs:
+    - data/style

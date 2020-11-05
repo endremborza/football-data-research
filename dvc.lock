@@ -37,3 +37,14 @@ create_match_networks:
   outs:
   - path: data/networks
     md5: a7c70af4490e86cba043b84fa2085094.dir
+create_style_data:
+  cmd: python -m src create_style_data
+  deps:
+  - path: data/networks
+    md5: a7c70af4490e86cba043b84fa2085094.dir
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: data/style
+    md5: 2f947a5aea935709557bf75f4ba598ab.dir
