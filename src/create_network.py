@@ -14,7 +14,8 @@ from .pass_success_model.prepare_data_for_modelling import (
     num_vals,
     bool_quals,
 )
-from .pass_success_model.run_pass_success_model import load_trained_model
+from .pass_success_model.run_pass_success_model import load_trained_model, run_pass_model_pe
+from .dvc_util import PipelineElement
 
 network_dir = os.path.join("data", "networks")
 os.makedirs(network_dir, exist_ok=True)
@@ -195,3 +196,12 @@ def load_season_network(season_id: str):
 def load_entire_network() -> pd.DataFrame:
     files = glob.glob(os.path.join(network_dir, f"network-*.parquet"))
     return reduce(reduce_append, files)
+
+
+create_network_pe = PipelineElement(
+    name="preate_match_networks",
+    runner=export_all_networks,
+    output_path=network_dir,
+    param_list=["seed"],
+    dependency_list=[run_pass_model_pe],
+)

@@ -1,4 +1,5 @@
 from .pass_success_model.prepare_data_for_modelling import prep_pass_model_pe
 from .pass_success_model.run_pass_success_model import run_pass_model_pe
 from .pass_success_model.evaluate_model import eval_pass_model_pe
+from .create_network import create_network_pe
 from .dvc_util import PipelineElement
