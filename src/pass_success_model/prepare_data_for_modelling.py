@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import OneHotEncoder
 
-from ..data_loaders import get_season_events, T2Data, reduce_append
+from ..data_loaders import get_season_events, T2Data, reduce_append, t2_dir
 from ..dvc_util import PipelineElement
 
 bool_quals = [
@@ -155,4 +155,5 @@ prep_pass_model_pe = PipelineElement(
     name="prepare_data_for_model",
     runner=export_all_model_data,
     output_path=model_data_dir,
+    dependency_list=[t2_dir]
 )
