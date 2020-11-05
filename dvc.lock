@@ -26,3 +26,14 @@ evaluate_pass_success_model:
   outs:
   - path: reports/pass_success_model_evaluation
     md5: 092ecf2f5749fd19727496d55a9a7d61.dir
+create_match_networks:
+  cmd: python -m src create_match_networks
+  deps:
+  - path: models/pass_success_lgbm.joblib
+    md5: e49eeab29708c4fd311ffd3661b23d6f
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: data/networks
+    md5: a7c70af4490e86cba043b84fa2085094.dir

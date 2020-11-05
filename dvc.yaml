@@ -20,3 +20,11 @@ stages:
     - seed
     outs:
     - reports/pass_success_model_evaluation
+  create_match_networks:
+    cmd: python -m src create_match_networks
+    deps:
+    - models/pass_success_lgbm.joblib
+    params:
+    - seed
+    outs:
+    - data/networks
