@@ -7,7 +7,8 @@ import pandas as pd
 import numpy as np
 
 from .data_loaders import T2Data
-from .create_network import load_season_network
+from .create_network import load_season_network, create_network_pe
+from .dvc_util import PipelineElement
 
 style_data_dir = os.path.join("data", "style")
 
@@ -188,3 +189,12 @@ def load_all_style_data() -> pd.DataFrame:
             for f in glob.glob(os.path.join(style_data_dir, f"*.parquet"))
         ]
     ).fillna(0)
+
+
+create_style_data_pe = PipelineElement(
+    name="create_style_data",
+    runner=export_all_style,
+    output_path=style_data_dir,
+    param_list=["seed"],
+    dependency_list=[create_network_pe],
+)
