@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+invoke
+lightgbm
+joblib
+dvc
+pyyaml
+shap
+pip>=20.2.4

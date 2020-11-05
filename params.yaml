@@ -1,0 +1,4 @@
+seed: 42069
+
+pass-success-model:
+  split: 0.20

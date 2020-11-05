@@ -1,0 +1,5 @@
+prepare_data_for_model:
+  cmd: python -m src prepare_data_for_model
+  outs:
+  - path: data/data_for_models
+    md5: 5a7fcb069d40be371fe616fb9b9514e4.dir
