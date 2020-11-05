@@ -199,7 +199,7 @@ def load_entire_network() -> pd.DataFrame:
 
 
 create_network_pe = PipelineElement(
-    name="preate_match_networks",
+    name="create_match_networks",
     runner=export_all_networks,
     output_path=network_dir,
     param_list=["seed"],
