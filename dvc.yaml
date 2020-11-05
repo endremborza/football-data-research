@@ -3,3 +3,12 @@ stages:
     cmd: python -m src prepare_data_for_model
     outs:
     - data/data_for_models
+  train_pass_success_model:
+    cmd: python -m src train_pass_success_model
+    deps:
+    - data/data_for_models
+    params:
+    - seed
+    - train_pass_success_model.split
+    outs:
+    - models/pass_success_lgbm.joblib

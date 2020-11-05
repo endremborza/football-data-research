@@ -3,3 +3,15 @@ prepare_data_for_model:
   outs:
   - path: data/data_for_models
     md5: 5a7fcb069d40be371fe616fb9b9514e4.dir
+train_pass_success_model:
+  cmd: python -m src train_pass_success_model
+  deps:
+  - path: data/data_for_models
+    md5: 5a7fcb069d40be371fe616fb9b9514e4.dir
+  params:
+    params.yaml:
+      seed: 42069
+      train_pass_success_model.split: 0.2
+  outs:
+  - path: models/pass_success_lgbm.joblib
+    md5: e49eeab29708c4fd311ffd3661b23d6f
