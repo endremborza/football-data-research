@@ -17,3 +17,4 @@ def clean(c):
 def dag(c):
     c.run("dvc dag --dot > dvcdag.dot")
     c.run("dot -Tpng dvcdag.dot -o dvcdag.png")
+    c.run("rm dvcdag.dot")
