@@ -52,7 +52,7 @@ class PipelineElement:
         out_str = f"-o {self.output_path}" if self.output_path else ""
         command = " ".join(
             [
-                f"dvc run -n {self.name}",
+                f"dvc run -n {self.name} --force",
                 param_str,
                 dep_str,
                 out_str,
