@@ -1,50 +1,53 @@
 prepare_data_for_model:
   cmd: python -m src prepare_data_for_model
+  deps:
+  - path: data/t2_raw
+    md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
   outs:
   - path: data/data_for_models
-    md5: 5a7fcb069d40be371fe616fb9b9514e4.dir
+    md5: 7041b79878f6971cf87da4e1f387662a.dir
 train_pass_success_model:
   cmd: python -m src train_pass_success_model
   deps:
   - path: data/data_for_models
-    md5: 5a7fcb069d40be371fe616fb9b9514e4.dir
+    md5: fd6cec778e824c303ef06454afe5fc81.dir
   params:
     params.yaml:
       seed: 42069
       train_pass_success_model.split: 0.2
   outs:
   - path: models/pass_success_lgbm.joblib
-    md5: e49eeab29708c4fd311ffd3661b23d6f
+    md5: beed456921ff21b0893229239f9d3eee
 evaluate_pass_success_model:
   cmd: python -m src evaluate_pass_success_model
   deps:
   - path: models/pass_success_lgbm.joblib
-    md5: e49eeab29708c4fd311ffd3661b23d6f
+    md5: beed456921ff21b0893229239f9d3eee
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/pass_success_model_evaluation
-    md5: 092ecf2f5749fd19727496d55a9a7d61.dir
+    md5: a2c270882bb09d076ebe77b5d0c30a5a.dir
 create_match_networks:
   cmd: python -m src create_match_networks
   deps:
   - path: models/pass_success_lgbm.joblib
-    md5: e49eeab29708c4fd311ffd3661b23d6f
+    md5: beed456921ff21b0893229239f9d3eee
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/networks
-    md5: a7c70af4490e86cba043b84fa2085094.dir
+    md5: fdf41f79cad880e05c84649fd0ec6983.dir
 create_style_data:
   cmd: python -m src create_style_data
   deps:
   - path: data/networks
-    md5: a7c70af4490e86cba043b84fa2085094.dir
+    md5: fdf41f79cad880e05c84649fd0ec6983.dir
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/style
-    md5: 2f947a5aea935709557bf75f4ba598ab.dir
+    md5: 8d9a5d5670a0e76134f2cc22d8754b9f.dir

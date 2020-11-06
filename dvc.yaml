@@ -3,6 +3,8 @@ stages:
     cmd: python -m src prepare_data_for_model
     outs:
     - data/data_for_models
+    deps:
+    - data/t2_raw
   train_pass_success_model:
     cmd: python -m src train_pass_success_model
     deps:
