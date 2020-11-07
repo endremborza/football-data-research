@@ -51,3 +51,16 @@ create_style_data:
   outs:
   - path: data/style
     md5: e91a7ee063b157f871bfa3cd4d367831.dir
+plot_networks:
+  cmd: python -m src plot_networks
+  deps:
+  - path: data/networks
+    md5: 060d01863b5dca692a5d6d35d3e40f75.dir
+  - path: src/network/present_network.py
+    md5: ab3c3744f5869e1f32960f5a1dd5207e
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: reports/network_plots
+    md5: 46d4a5b9052b58c6458cb4caa9003f1d.dir

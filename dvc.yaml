@@ -38,3 +38,12 @@ stages:
     - seed
     outs:
     - data/style
+  plot_networks:
+    cmd: python -m src plot_networks
+    deps:
+    - data/networks
+    - src/network/present_network.py
+    params:
+    - seed
+    outs:
+    - reports/network_plots
