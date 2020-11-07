@@ -127,5 +127,5 @@ plot_network_pe = PipelineElement(
     runner=plot_top_networks,
     output_path=network_plot_dir,
     param_list=["seed"],
-    dependency_list=[create_network_pe, "src/network/present_network.py"],
+    dependency_list=[create_network_pe],
 )

@@ -3,64 +3,87 @@ prepare_data_for_model:
   deps:
   - path: data/t2_raw
     md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
+  - path: src/pass_success_model/prepare_data_for_modelling.py
+    md5: 76520fe687e3d066a273d9156a6afe73
   outs:
   - path: data/data_for_models
-    md5: 7041b79878f6971cf87da4e1f387662a.dir
+    md5: 311ee991eed840946d98caf25fde7537.dir
 train_pass_success_model:
   cmd: python -m src train_pass_success_model
   deps:
   - path: data/data_for_models
-    md5: 7041b79878f6971cf87da4e1f387662a.dir
+    md5: 311ee991eed840946d98caf25fde7537.dir
+  - path: src/pass_success_model/run_pass_success_model.py
+    md5: b5c4319dcf7635d2b69eef4182a5247b
   params:
     params.yaml:
       seed: 42069
       train_pass_success_model.split: 0.2
   outs:
   - path: models/pass_success_lgbm.joblib
-    md5: 115fb1f331bcfda278252c1f00dca73b
+    md5: 07392cd72dcde79175319aa03afb4835
 evaluate_pass_success_model:
   cmd: python -m src evaluate_pass_success_model
   deps:
   - path: models/pass_success_lgbm.joblib
-    md5: 115fb1f331bcfda278252c1f00dca73b
+    md5: 07392cd72dcde79175319aa03afb4835
+  - path: src/pass_success_model/evaluate_model.py
+    md5: f04a0f0024d45f1c20f48374582c8385
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/pass_success_model_evaluation
-    md5: 9104d5ca70a06e7c41872ba38d045178.dir
+    md5: 8166a9c67ccb44c843ce62d52921de7e.dir
 create_match_networks:
   cmd: python -m src create_match_networks
   deps:
   - path: models/pass_success_lgbm.joblib
-    md5: 115fb1f331bcfda278252c1f00dca73b
+    md5: 07392cd72dcde79175319aa03afb4835
+  - path: src/network/create_network.py
+    md5: 3b6f7659b051af47edb69c0ab97dddce
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/networks
-    md5: 060d01863b5dca692a5d6d35d3e40f75.dir
+    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
 create_style_data:
   cmd: python -m src create_style_data
   deps:
   - path: data/networks
-    md5: 060d01863b5dca692a5d6d35d3e40f75.dir
+    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
+  - path: src/style/create_style_vars.py
+    md5: f4afe9f2a02193d4ff65b255f71b77c8
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/style
-    md5: e91a7ee063b157f871bfa3cd4d367831.dir
+    md5: c1a554fe11fb249a05de04fdbef352b8.dir
 plot_networks:
   cmd: python -m src plot_networks
   deps:
   - path: data/networks
-    md5: 060d01863b5dca692a5d6d35d3e40f75.dir
+    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
   - path: src/network/present_network.py
-    md5: b1b3ff8ef5103e8deb7ff6cce9d1de84
+    md5: 1758a9cae0ea57d11b2335c812a1b38c
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/network_plots
-    md5: 12eb297de8101f10e2b5f6b9398261c4.dir
+    md5: 3ae77c63403f08b7a053c2a048a19032.dir
+report_style:
+  cmd: python -m src report_style
+  deps:
+  - path: data/style
+    md5: c1a554fe11fb249a05de04fdbef352b8.dir
+  - path: src/style/report_style_vars.py
+    md5: 9d13bcc36a9210b3635dae5e9eac9c00
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: reports/style
+    md5: 75635123c433301be62d9bd0779e5618.dir

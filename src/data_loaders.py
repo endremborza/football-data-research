@@ -4,6 +4,8 @@ import pandas as pd
 
 from .data_locations import t2_dir
 
+sides = ["home", "away"]
+
 
 class T2Data:
     @staticmethod
@@ -68,6 +70,41 @@ class T2Data:
             home_team=lambda df: team_ser.reindex(df["home_teamid"]).values,
             away_team=lambda df: team_ser.reindex(df["away_teamid"]).values,
         ).loc[:, ["home_team", "away_team", "fulltime_score", "date", "wh_match_id"]]
+
+    @classmethod
+    def get_unstacked_match_df(cls):
+        return (
+            cls.get_match_df()
+            .loc[
+                :,
+                [
+                    "home_goals_ft",
+                    "away_goals_ft",
+                    "wh_match_id",
+                    "home_teamid",
+                    "home_managername",
+                    "away_teamid",
+                    "away_managername",
+                ],
+            ]
+            .assign(is_draw=lambda df: df["home_goals_ft"] == df["away_goals_ft"])
+            .pipe(
+                lambda df: pd.concat(
+                    [
+                        df.rename(
+                            columns=lambda s: s.replace(side, "self").replace(
+                                opp, "opposition"
+                            )
+                        ).assign(
+                            side=side,
+                            win=lambda _df: _df[f"self_goals_ft"]
+                            > _df[f"opposition_goals_ft"],
+                        )
+                        for side, opp in [sides, sides[::-1]]
+                    ]
+                ).set_index(["wh_match_id", "side"])
+            )
+        )
 
 
 def reduce_append(df1, df2):

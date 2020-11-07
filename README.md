@@ -4,6 +4,22 @@ With [Gianmarco Ottaviano](https://sites.google.com/view/gipottaviano)
 (Bocconi University) and 
 [Gábor Békés](https://sites.google.com/site/bekesg/) (CEU)
 
+## Report
+
+A [report](reports/main_report.md) of the results is generated
+in the last, `final_report` step of the dag
+
+## Processing
+
+The following [dvc](https://dvc.org/) DAG can be rerun using `dvc repro`
+ and all necessary data can be downloaded using `dvc pull` 
+ (edge directions show dependency)
+
+![dvc-pipeline](dvcdag.png)
+
+the code for all elements of the pipeline can be tracked as instances of 
+`src.dvc_util.PipelineElement` in the src module. 
+
 ## Data Sources
 
 All transferred from a raw T1 data-collection and initial cleaning
@@ -19,18 +35,4 @@ step to a T2 tabular, tidy form in `data/t2_raw` serialized to parquet
 presented in this public repo is a sample dataset based on the scope of
 [this set](https://figshare.com/collections/Soccer_match_event_dataset/4415000/5)
 
-## Processing
 
-The following [dvc](https://dvc.org/) DAG can be rerun using `dvc repro`
- and all necessary data can be downloaded using `dvc pull` 
- (edge directions show dependency)
-
-![dvc-pipeline](dvcdag.png)
-
-the code for all elements of the pipeline can be tracked as instances of 
-`src.dvc_util.PipelineElement` in the src module. 
-
-## Report
-
-A [report](reports/main_report.md) of the results is generated
-in the last step of the dvc dag

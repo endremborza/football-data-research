@@ -5,10 +5,12 @@ stages:
     - data/data_for_models
     deps:
     - data/t2_raw
+    - src/pass_success_model/prepare_data_for_modelling.py
   train_pass_success_model:
     cmd: python -m src train_pass_success_model
     deps:
     - data/data_for_models
+    - src/pass_success_model/run_pass_success_model.py
     params:
     - seed
     - train_pass_success_model.split
@@ -18,6 +20,7 @@ stages:
     cmd: python -m src evaluate_pass_success_model
     deps:
     - models/pass_success_lgbm.joblib
+    - src/pass_success_model/evaluate_model.py
     params:
     - seed
     outs:
@@ -26,6 +29,7 @@ stages:
     cmd: python -m src create_match_networks
     deps:
     - models/pass_success_lgbm.joblib
+    - src/network/create_network.py
     params:
     - seed
     outs:
@@ -34,6 +38,7 @@ stages:
     cmd: python -m src create_style_data
     deps:
     - data/networks
+    - src/style/create_style_vars.py
     params:
     - seed
     outs:
@@ -47,3 +52,12 @@ stages:
     - seed
     outs:
     - reports/network_plots
+  report_style:
+    cmd: python -m src report_style
+    deps:
+    - data/style
+    - src/style/report_style_vars.py
+    params:
+    - seed
+    outs:
+    - reports/style

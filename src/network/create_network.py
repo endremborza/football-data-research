@@ -22,7 +22,6 @@ from src.pass_success_model.run_pass_success_model import (
 )
 
 network_dir = os.path.join("data", "networks")
-os.makedirs(network_dir, exist_ok=True)
 
 
 x_field_bins = [-1, 33.3, 66.6, 101]
@@ -34,7 +33,7 @@ categ_vals = ["period", "pass_direction_cat", "predicted_success_bin"] + [
         ["source", "target"], ["field_zone", "formation_slot"]
     )
 ]
-cat_types = ["field_zone", "player", "formation_slot"]
+network_types = ["field_zone", "player", "formation_slot"]
 all_num_vals = num_vals + ["predicted_success_probability"]
 
 
@@ -97,6 +96,12 @@ def transform_passes_to_network_base(pass_df):
     return pass_network_base
 
 
+def _filter_for_past(df):
+    return (df["minute"] >= df["start_minute"]) & (
+        df["match_period_id"] >= df["period_id"]
+    )
+
+
 def extend_pass_network_base(network_base: pd.DataFrame):
     formation_uses_df = T2Data.get_formation_use_df()
     network_dfs = []
@@ -106,18 +111,16 @@ def extend_pass_network_base(network_base: pd.DataFrame):
             gdf.merge(
                 melted_formations.rename(columns={"value": "source_player"}), how="left"
             )
-            .loc[
-                lambda df: (df["minute"] >= df["start_minute"])
-                & (df["match_period_id"] >= df["period_id"])
-            ]
-            .sort_values(["period", "end_minute"])
-            .loc[lambda df: ~df.index.duplicated(keep="last"), :]
+            .loc[_filter_for_past]
             .rename(columns={"variable": "source_formation_slot"})
             .merge(
                 melted_formations.rename(columns={"value": "target_player"}),
                 how="left",
             )
             .rename(columns={"variable": "target_formation_slot"})
+            .loc[_filter_for_past]
+            .sort_values(["period", "end_minute"])
+            .drop_duplicates(subset=["event_side", "eventid"], keep="first")
             .pipe(
                 lambda df: df.assign(
                     **{
@@ -142,7 +145,7 @@ def extend_pass_network_base(network_base: pd.DataFrame):
             .rename(columns=rename_encoded_cols)
         )
 
-        for cat_type in cat_types:
+        for cat_type in network_types:
             current_endpoints = [f"{s}_{cat_type}" for s in ["source", "target"]]
 
             network_dfs.append(
@@ -178,11 +181,12 @@ def create_season_networks(season_id: str) -> pd.DataFrame:
         .assign(
             source=lambda df: df["source"].astype(str),
             target=lambda df: df["target"].astype(str),
-        )
+        )  # TODO
     )
 
 
 def export_all_networks(wrapper=lambda x: x):
+    os.makedirs(network_dir, exist_ok=True)
     season_df = T2Data.get_wh_season_df()
     for season_id in wrapper(season_df["wh_season_id"]):
         try:

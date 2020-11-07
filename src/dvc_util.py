@@ -1,4 +1,6 @@
 import random
+import traceback
+import os
 from dataclasses import dataclass, field
 from typing import Iterable, List, Optional, Union
 
@@ -18,6 +20,9 @@ class PipelineElement:
     dependency_list: List[Union[str, "PipelineElement"]] = field(default_factory=list)
 
     def __post_init__(self):
+        fs = traceback.extract_stack()[-3]
+        relpath = os.path.relpath(fs.filename, os.getcwd())
+        self.dependency_list.insert(0, relpath)
         self.element_dic[self.name] = self
 
     def run(self, loaded_params: dict):
