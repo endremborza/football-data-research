@@ -53,6 +53,21 @@ class T2Data:
     def get_attendance_df():
         return _get_df("attendance_df")
 
+    @classmethod
+    def get_simplified_wh_matches(cls):
+        match_df = cls.get_match_df()
+
+        team_ser = cls.get_wh_team_df().set_index("teamId")["name"]
+
+        return match_df.assign(
+            fulltime_score=lambda df: df["home_goals_ft"].astype(int).astype(str)
+            + " : "
+            + df["away_goals_ft"].astype(int).astype(str),
+            date=lambda df: df["datetime"].dt.date,
+            home_team=lambda df: team_ser.reindex(df["home_teamid"]).values,
+            away_team=lambda df: team_ser.reindex(df["away_teamid"]).values,
+        ).loc[:, ["home_team", "away_team", "fulltime_score", "date", "wh_match_id"]]
+
 
 def reduce_append(df1, df2):
     if isinstance(df1, str):

@@ -155,5 +155,5 @@ prep_pass_model_pe = PipelineElement(
     name="prepare_data_for_model",
     runner=export_all_model_data,
     output_path=model_data_dir,
-    dependency_list=[t2_dir]
+    dependency_list=[t2_dir],
 )

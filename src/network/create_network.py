@@ -14,7 +14,10 @@ from src.pass_success_model.prepare_data_for_modelling import (
     num_vals,
     bool_quals,
 )
-from src.pass_success_model.run_pass_success_model import load_trained_model, run_pass_model_pe
+from src.pass_success_model.run_pass_success_model import (
+    load_trained_model,
+    run_pass_model_pe,
+)
 from src.dvc_util import PipelineElement
 
 network_dir = os.path.join("data", "networks")
