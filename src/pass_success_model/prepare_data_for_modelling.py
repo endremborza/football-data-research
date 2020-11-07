@@ -1,14 +1,14 @@
-from functools import reduce
 import glob
 import os
+from functools import reduce
 
-import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
+import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 
-from ..data_loaders import get_season_events, T2Data, reduce_append, t2_dir
+from ..data_loaders import T2Data, get_season_events, reduce_append, t2_dir
 from ..dvc_util import PipelineElement
 
 bool_quals = [

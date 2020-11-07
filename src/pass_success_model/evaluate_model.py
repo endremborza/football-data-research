@@ -1,29 +1,27 @@
 import os
 
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import shap
 import yaml
-
 from sklearn.metrics import (
-    f1_score,
-    accuracy_score,
-    recall_score,
-    brier_score_loss,
-    roc_curve,
-    RocCurveDisplay,
-    confusion_matrix,
     ConfusionMatrixDisplay,
+    RocCurveDisplay,
+    accuracy_score,
+    brier_score_loss,
+    confusion_matrix,
+    f1_score,
+    recall_score,
+    roc_curve,
 )
 
-
+from src.dvc_util import PipelineElement
 from src.pass_success_model.prepare_data_for_modelling import load_all_model_data
 from src.pass_success_model.run_pass_success_model import (
     load_trained_model,
     run_pass_model_pe,
 )
-from src.dvc_util import PipelineElement
 
 pass_success_model_eval_dir = os.path.join("reports", "pass_success_model_evaluation")
 

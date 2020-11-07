@@ -1,10 +1,9 @@
 import random
-
 from dataclasses import dataclass, field
-from typing import Optional, List, Iterable, Union
+from typing import Iterable, List, Optional, Union
 
-from invoke import task
 import numpy as np
+from invoke import task
 
 
 @dataclass

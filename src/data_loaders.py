@@ -1,6 +1,7 @@
+import os
+
 import pandas as pd
 
-import os
 from .data_locations import t2_dir
 
 

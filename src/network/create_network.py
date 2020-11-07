@@ -1,24 +1,25 @@
+import glob
 import itertools
 import os
-import glob
 from functools import reduce
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 from src.data_loaders import T2Data, get_season_events, reduce_append
+from src.dvc_util import PipelineElement
 from src.pass_success_model.prepare_data_for_modelling import (
     AddCodes,
-    transform_pass_data_to_model_data,
-    transform_event_data_to_pass_data,
-    target,
-    num_vals,
     bool_quals,
+    num_vals,
+    target,
+    transform_event_data_to_pass_data,
+    transform_pass_data_to_model_data,
 )
 from src.pass_success_model.run_pass_success_model import (
     load_trained_model,
     run_pass_model_pe,
 )
-from src.dvc_util import PipelineElement
 
 network_dir = os.path.join("data", "networks")
 os.makedirs(network_dir, exist_ok=True)

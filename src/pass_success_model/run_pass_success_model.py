@@ -4,13 +4,13 @@ import joblib
 import lightgbm as lgbm
 from sklearn.pipeline import make_pipeline
 
+from ..dvc_util import PipelineElement
 from .prepare_data_for_modelling import (
     AddCodes,
     categ_vals,
     load_all_model_data,
     prep_pass_model_pe,
 )
-from ..dvc_util import PipelineElement
 
 model_file_path = os.path.join("models", "pass_success_lgbm.joblib")
 
