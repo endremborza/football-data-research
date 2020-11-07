@@ -6,9 +6,9 @@ from operator import truediv
 import pandas as pd
 import numpy as np
 
-from .data_loaders import T2Data
-from .create_network import load_season_network, create_network_pe
-from .dvc_util import PipelineElement
+from src.data_loaders import T2Data
+from src.network.create_network import load_season_network, create_network_pe
+from src.dvc_util import PipelineElement
 
 style_data_dir = os.path.join("data", "style")
 
