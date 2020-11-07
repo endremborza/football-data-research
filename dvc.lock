@@ -57,10 +57,10 @@ plot_networks:
   - path: data/networks
     md5: 060d01863b5dca692a5d6d35d3e40f75.dir
   - path: src/network/present_network.py
-    md5: ab3c3744f5869e1f32960f5a1dd5207e
+    md5: 732b2895808c153b1f813e5b303f16e8
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/network_plots
-    md5: 46d4a5b9052b58c6458cb4caa9003f1d.dir
+    md5: 8a05eb89dab5575ab7e1a9dbe9a2d40f.dir

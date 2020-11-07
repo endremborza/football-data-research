@@ -69,11 +69,11 @@ def plot_nw_df(gdf, poses, gid, bg_img):
         graph,
         pos=poses,
         ax=ax,
-        font_size=28,
-        node_size=2500,
+        font_size=15,
+        node_size=1100,
         font_color="w",
         width=gdf["total"].pipe(np.log).values,
-        arrowsize=20,
+        arrowsize=15,
         connectionstyle="arc3,rad=0.1",
     )
     plt.title(plt_title)
@@ -86,8 +86,9 @@ def plot_nw_df(gdf, poses, gid, bg_img):
 def plot_top_networks():
     os.makedirs(network_plot_dir, exist_ok=True)
     bg_img = plt.imread("football-field.jpg")
-    fig_h = 18
-    plt.rcParams["figure.figsize"] = (fig_h, fig_h * bg_img.shape[1] / bg_img.shape[0])
+    fig_h = 9
+    plt.rcParams["figure.figsize"] = (fig_h * bg_img.shape[1] / bg_img.shape[0], fig_h)
+    plt.rcParams['axes.titlesize'] = 16
 
     match_df = T2Data.get_simplified_wh_matches()
     network_df = load_entire_network()
