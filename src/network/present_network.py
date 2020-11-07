@@ -38,6 +38,8 @@ def get_pos_dict(nw_df, bg_img):
             / df[["total"]].values
             / 100
             * bg_img.shape[:2][::-1]
+            * np.array([1, -1])
+            + np.array([0, bg_img.shape[0]])
         )
         .T.to_dict("list")
     )
@@ -88,7 +90,7 @@ def plot_top_networks():
     bg_img = plt.imread("football-field.jpg")
     fig_h = 9
     plt.rcParams["figure.figsize"] = (fig_h * bg_img.shape[1] / bg_img.shape[0], fig_h)
-    plt.rcParams['axes.titlesize'] = 16
+    plt.rcParams["axes.titlesize"] = 16
 
     match_df = T2Data.get_simplified_wh_matches()
     network_df = load_entire_network()
