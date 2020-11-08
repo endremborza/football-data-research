@@ -18,6 +18,7 @@ class PipelineElement:
     output_path: Optional[str] = None
     param_list: list = field(default_factory=list)
     dependency_list: List[Union[str, "PipelineElement"]] = field(default_factory=list)
+    out_nonchache: Optional[str] = None
 
     def __post_init__(self):
         fs = traceback.extract_stack()[-3]
@@ -54,12 +55,14 @@ class PipelineElement:
         if dep_str:
             dep_str = " -d " + dep_str
         out_str = f"-o {self.output_path}" if self.output_path else ""
+        out_noncache_str = f"-O {self.out_nonchache}" if self.out_nonchache else ""
         command = " ".join(
             [
                 f"dvc run -n {self.name} --force",
                 param_str,
                 dep_str,
                 out_str,
+                out_noncache_str,
                 f"python -m src {self.name}",
             ]
         )

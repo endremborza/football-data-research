@@ -87,3 +87,19 @@ report_style:
   outs:
   - path: reports/style
     md5: 75635123c433301be62d9bd0779e5618.dir
+final_report:
+  cmd: python -m src final_report
+  deps:
+  - path: reports/main_report_frame.md
+    md5: 1cdd3099c3862fb95d5653d16866f358
+  - path: reports/network_plots
+    md5: 3ae77c63403f08b7a053c2a048a19032.dir
+  - path: reports/pass_success_model_evaluation
+    md5: 8166a9c67ccb44c843ce62d52921de7e.dir
+  - path: reports/style
+    md5: 75635123c433301be62d9bd0779e5618.dir
+  - path: src/final_report.py
+    md5: 11c3fb3a642404a9d2aad2d0d2e139ac
+  outs:
+  - path: reports/figures
+    md5: 8bb3c58de14250f210c1ce3b4edee5fd.dir

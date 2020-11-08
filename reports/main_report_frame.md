@@ -20,23 +20,26 @@ Three types of networks are created for every game. Specific for the
 home and away sides and the formations they played in the game.
 These networks are based on the passes attempted when the team played 
 in the formation the graph is based on.
+
+(in the sample graph plots, the nodes are placed based on the mean source 
+location of pass attempts)
  
 - `field_zone` based, where sources and targets represent one specific 
  third of the field in either direction, splitting the pitch to 9 equal sized
  areas. (this is the only type of graph that includes unsuccessful passes, as 
  pass end location is recorded for incomplete passes as well, but pass target 
  player is not)
-![nw1](network_plots/field_zone-1190434-away-4231.svg)
+![nw1](figures/field_zone-1190485-home-433.svg)
 
 - `formation_slot` based, where sources and targets represent a slot in the 
- teams formation. in this example, `spot_3` is the left back position 
- in 4-2-3-1 
- filled in the game by first Ben Chillwell then Christian Fuchs 
+ teams formation. in this example, `spot_2` is the right wing-back position 
+ in 3-5-2 
+ filled in the game by Kyle Walker 
  (as seen in the next figure)
-![nw2](network_plots/formation_slot-1190434-away-4231.svg)
+![nw2](figures/formation_slot-1190551-away-352.svg)
 
 - `player` based, where sources and targets are simply players
-![nw3](network_plots/player-1190434-away-4231.svg)
+![nw3](figures/player-1190551-away-352.svg)
 
 
 ### Edge Attributes
@@ -65,6 +68,7 @@ For each edge we know:
 
 ## Style
 
+{style_table}
 
 ## Success Association
 

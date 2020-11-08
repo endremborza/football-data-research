@@ -61,3 +61,14 @@ stages:
     - seed
     outs:
     - reports/style
+  final_report:
+    cmd: python -m src final_report
+    deps:
+    - reports/main_report_frame.md
+    - reports/network_plots
+    - reports/pass_success_model_evaluation
+    - reports/style
+    - src/final_report.py
+    outs:
+    - reports/figures:
+        cache: false
