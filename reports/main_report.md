@@ -76,17 +76,17 @@ For each edge we know:
       <th>source</th>
       <th>formation</th>
       <th>is_success</th>
-      <th>targeted_spot_1</th>
-      <th>targeted_spot_10</th>
-      <th>targeted_spot_11</th>
-      <th>targeted_spot_2</th>
-      <th>targeted_spot_3</th>
-      <th>targeted_spot_4</th>
-      <th>targeted_spot_5</th>
-      <th>targeted_spot_6</th>
-      <th>targeted_spot_7</th>
-      <th>targeted_spot_8</th>
-      <th>targeted_spot_9</th>
+      <th>spot_1</th>
+      <th>spot_10</th>
+      <th>spot_11</th>
+      <th>spot_2</th>
+      <th>spot_3</th>
+      <th>spot_4</th>
+      <th>spot_5</th>
+      <th>spot_6</th>
+      <th>spot_7</th>
+      <th>spot_8</th>
+      <th>spot_9</th>
       <th>total</th>
       <th>gini</th>
     </tr>

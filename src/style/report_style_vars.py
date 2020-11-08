@@ -85,8 +85,8 @@ def export_style_report():
                 ["source", "target", "side", "total", "formation", "is_success"]
             ),
         ]
-        .rename(columns=lambda s: s.replace(prefix, "targeted_"))
-        .drop("targeted_no_target", axis=1)
+        .rename(columns=lambda s: s.replace(prefix, ""))
+        .drop("no_target", axis=1)
         .groupby(["side", "source", "formation"])
         .sum()
         .assign(
