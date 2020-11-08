@@ -19,12 +19,14 @@ class PipelineElement:
     param_list: list = field(default_factory=list)
     dependency_list: List[Union[str, "PipelineElement"]] = field(default_factory=list)
     out_nonchache: Optional[str] = None
+    lineno: int = field(init=False)
 
     def __post_init__(self):
         fs = traceback.extract_stack()[-3]
         relpath = os.path.relpath(fs.filename, os.getcwd())
         self.dependency_list.insert(0, relpath)
         self.element_dic[self.name] = self
+        self.lineno = fs.lineno
 
     def run(self, loaded_params: dict):
 
@@ -72,6 +74,10 @@ class PipelineElement:
             c.run(command)
 
         return _task
+
+    def get_dag_replace(self, link_base):
+        link = link_base.format(self.dependency_list[0], self.lineno)
+        return self.name, f"[{self.name}]({link})"
 
     @classmethod
     def get_inst(cls, name: str) -> "PipelineElement":
