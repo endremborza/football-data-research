@@ -80,26 +80,26 @@ report_style:
   - path: data/style
     md5: c1a554fe11fb249a05de04fdbef352b8.dir
   - path: src/style/report_style_vars.py
-    md5: a964887671e17125b66d53fc5e5c174e
+    md5: bd6e015622435bdc733c8354b1bd949f
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/style
-    md5: 80014e5d2dc30ab7137b4361e32d552c.dir
+    md5: 104e6fd6f18807de4c58ee5bb9cc1796.dir
 final_report:
   cmd: python -m src final_report
   deps:
   - path: reports/main_report_frame.md
-    md5: 6bc5e33212511bbe500469f424d03dea
+    md5: 6eb1fbedd79a9d02a6128675f41ea867
   - path: reports/network_plots
     md5: 3ae77c63403f08b7a053c2a048a19032.dir
   - path: reports/pass_success_model_evaluation
     md5: a1b0ca9d249f35ef5a6b300f5683d75f.dir
   - path: reports/style
-    md5: 80014e5d2dc30ab7137b4361e32d552c.dir
+    md5: 104e6fd6f18807de4c58ee5bb9cc1796.dir
   - path: src/final_report.py
-    md5: 755a74d919bd47fa5c8071b832286b0d
+    md5: 41418276811363b1154bb85387c4f4f5
   outs:
   - path: reports/figures
     md5: 643dea88c6868a8d6713b4543fc698bf.dir

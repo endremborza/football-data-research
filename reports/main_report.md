@@ -519,7 +519,38 @@ The observation in the previous section can be stated as follows:
 > the more "rigid" the opponents performance is, the more likely it is 
 > that team A ends up winning the game
 
-with the [rigid](#rigidity) definition given above
+with the [rigid](#rigidity) definition given above. 
+
+Giving a formal statement for this observation:
+
+running a probit model on winning gives the following coefficients,
+for teams with pass success rate in the bottom two thirds:
+
+<table class="simpletable">
+<tr>
+           <td></td>              <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>opposition rigidity</th> <td>    0.6198</td> <td>    1.092</td> <td>    0.567</td> <td> 0.570</td> <td>   -1.521</td> <td>    2.760</td>
+</tr>
+<tr>
+  <th>const</th>               <td>   -0.8171</td> <td>    0.513</td> <td>   -1.593</td> <td> 0.111</td> <td>   -1.823</td> <td>    0.188</td>
+</tr>
+</table>
+
+and in the top third:
+
+<table class="simpletable">
+<tr>
+           <td></td>              <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>opposition rigidity</th> <td>    3.6689</td> <td>    1.250</td> <td>    2.935</td> <td> 0.003</td> <td>    1.218</td> <td>    6.119</td>
+</tr>
+<tr>
+  <th>const</th>               <td>   -1.6793</td> <td>    0.601</td> <td>   -2.793</td> <td> 0.005</td> <td>   -2.858</td> <td>   -0.501</td>
+</tr>
+</table>
 
 ### Possible paths
 

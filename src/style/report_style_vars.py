@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
 import matplotlib.pyplot as plt
 
 from src.dvc_util import PipelineElement
@@ -18,6 +19,7 @@ style_pair_renamer = {
     "rate___self": "pass success rate",
     "source_field_zone___opposition___formation_slot___target": "opposition rigidity",
 }
+style_pair_vals = list(style_pair_renamer.values())
 
 
 def _make_fp(fp_str):
@@ -31,15 +33,37 @@ class ExportedFiles:
     result_of_sample_match = _make_fp("result_of_sample_match.html")
     style_agged = _make_fp("match_styles.html")
 
+    under_probit = _make_fp("under_probit.html")
+    over_probit = _make_fp("over_probit.html")
 
-def dump_heatmap(us_match_df: pd.DataFrame, style_df: pd.DataFrame):
 
-    rel_matchups = (
+def get_rel_matchups(us_match_df: pd.DataFrame, style_df: pd.DataFrame):
+    return (
         us_match_df.join(style_df)
         .rename(columns=style_pair_renamer)
         .loc[:, ["win", *style_pair_renamer.values()]]
     )
-    style_pair_vals = list(style_pair_renamer.values())
+
+
+def dump_probit_results(rel_matchups):
+    break_q = 0.66
+    filenames = {True: ExportedFiles.over_probit, False: ExportedFiles.under_probit}
+
+    for gid, gdf in rel_matchups.groupby(
+        rel_matchups[style_pair_vals[0]].pipe(lambda s: s > s.quantile(break_q))
+    ):
+        html_str = (
+            sm.Probit(gdf["win"], gdf[style_pair_vals[1:]].assign(const=1))
+            .fit(cov_type="HC1")
+            .summary()
+            .tables[1]
+            .as_html()
+        )
+        with open(filenames[gid], "w") as fp:
+            fp.write(html_str)
+
+
+def dump_heatmap(rel_matchups: pd.DataFrame):
 
     rel_matchups[["win"]].join(
         rel_matchups.loc[:, style_pair_vals].apply(pd.qcut, q=4)
@@ -76,7 +100,9 @@ def export_style_report():
     simple_matches = T2Data.get_simplified_wh_matches()
     us_match_df = T2Data.get_unstacked_match_df()
     style_df = load_all_style_data()
-    match_id = dump_heatmap(us_match_df, style_df)
+    rel_matchups = get_rel_matchups(us_match_df, style_df)
+    match_id = dump_heatmap(rel_matchups)
+    dump_probit_results(rel_matchups)
 
     simple_matches.set_index("wh_match_id").loc[[match_id], :].reset_index().to_html(
         ExportedFiles.result_of_sample_match

@@ -10,4 +10,6 @@ shap
 pillow
 networkx
 matplotlib
+seaborn
+statsmodels
 pip>=20.2.4

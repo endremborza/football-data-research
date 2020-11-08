@@ -34,6 +34,8 @@ def export_report():
         "all_ginis",
         "result_of_sample_match",
         "style_agged",
+        "under_probit",
+        "over_probit"
     ]
     style_table_dic = {k: open(getattr(ExportedFiles, k)).read() for k in style_tables}
     metric_table_str = open(metric_table_fp).read()

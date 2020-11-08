@@ -216,7 +216,18 @@ The observation in the previous section can be stated as follows:
 > the more "rigid" the opponents performance is, the more likely it is 
 > that team A ends up winning the game
 
-with the [rigid](#rigidity) definition given above
+with the [rigid](#rigidity) definition given above. 
+
+Giving a formal statement for this observation:
+
+running a probit model on winning gives the following coefficients,
+for teams with pass success rate in the bottom two thirds:
+
+{under_probit}
+
+and in the top third:
+
+{over_probit}
 
 ### Possible paths
 
