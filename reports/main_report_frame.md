@@ -20,7 +20,7 @@ of a pass.
   - `x`, `y`, `passendy`, `passendx`, `length`, `distance_from_opp_goal`, `distance_from_own_goal`, `minute`
 
 
-### Model performance
+### Model Performance
 
 The model is evaluated on a test set 
 in the `evaluate_pass_success_model` step
@@ -59,7 +59,7 @@ the mean of predicted probability.
 These metrics and figures should be sufficient to conclude that the model
 meaningfully extends the data with estimated pass riskiness
 
-### Determinants of pass success
+### Determinants of Pass Success
 
 Looking at [shap](https://github.com/slundberg/shap) generated values
 for impact on predicted success, the most important determinants of 
@@ -157,30 +157,68 @@ Take the following match
 
 {result_of_sample_match}
 
-On example of the away teams passes originating in one zone, 
-distributed across formation slots
+One example of the away teams passes originating in zone `1-0`, 
+(right side of midfield) distributed across formation slots:
 
 {source_example}
 
-this gives a gini coefficient of X. 
-calculating this gini coefficient 
-for all source zones gives the following table
+Though spots 1, 3, and 11 
+(goalkeeper, left back and left forward in a 4-3-3 played by Man City here)
+don't really receive passes from this zone, the rest of the passes are 
+fairly well spread out.
+
+So we could have an estimate of how strictly this pattern follows 
+a simple version of the rigid algorithm by determining some sort of 
+concentration metric of these numbers, e. g. the gini coefficient. 
+These concrete numbers givee a gini coefficient of about 41%, 
+which is fairly low.
+Looking at calculated gini coefficients
+for all source zones of both teams gives the following table.
+Notice that the lowest gini score for Huddersfield is 46%, 
+so based on this metric Huddersfield seems the more rigid team.
 
 {all_ginis}
 
-which gives a weighted average
+Taking the weighted averages of the gini coefficients, and extending the 
+data with the pass success rates of the teams we can deduce a 
+notable difference in style.
 
 {style_agged}
 
+Of course many different style features can be defined on this rich dataset, 
+this example is serves a purpose in the next section.
 
-## Success Association
+## Style-Success Association
 
-Turns out the above defined rigidity of a teams performance
+Turns out, the above defined rigidity of a teams performance
 can be associated with its success, based on the opposition.
+
+Take this heatmap of win rates by the intersection of a teams 
+pass success rate and the opponents rigidity.
 
 ![style-heatmap](figures/heatmap.png)
 
-## Association to causation
+It would seem that when a team has low pass success rate, the opponents
+measure rigidity has no correlation with the win rate. However,
+when a team is accurate in it's passing, a strong association appears,
+with the more rigid the opponent, the more likely the well-passing team wins.
+
+The interesting challenge here of course, is identifying a casual relationship
+underlying this association.
+
+## Association to Causation
+
+### Observation
+
+The observation in the previous section can be stated as follows:
+
+> If team A's performance is characterised by high passing accuracy in a match, 
+> the more "rigid" the opponents performance is, the more likely it is 
+> that team A ends up winning the game
+
+with the [rigid](#rigidity) definition given above
+
+### Possible paths
 
 ## Entity Coreference
 

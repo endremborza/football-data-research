@@ -20,7 +20,7 @@ of a pass.
   - `x`, `y`, `passendy`, `passendx`, `length`, `distance_from_opp_goal`, `distance_from_own_goal`, `minute`
 
 
-### Model performance
+### Model Performance
 
 The model is evaluated on a test set 
 in the `evaluate_pass_success_model` step
@@ -84,7 +84,7 @@ the mean of predicted probability.
 These metrics and figures should be sufficient to conclude that the model
 meaningfully extends the data with estimated pass riskiness
 
-### Determinants of pass success
+### Determinants of Pass Success
 
 Looking at [shap](https://github.com/slundberg/shap) generated values
 for impact on predicted success, the most important determinants of 
@@ -194,17 +194,17 @@ Take the following match
   <tbody>
     <tr>
       <th>0</th>
-      <td>1190306</td>
-      <td>Huddersfield</td>
-      <td>Man City</td>
-      <td>1 : 2</td>
-      <td>2017-11-26</td>
+      <td>1190469</td>
+      <td>West Brom</td>
+      <td>Tottenham</td>
+      <td>1 : 0</td>
+      <td>2018-05-05</td>
     </tr>
   </tbody>
 </table>
 
-On example of the away teams passes originating in one zone, 
-distributed across formation slots
+One example of the away teams passes originating in zone `1-0`, 
+(right side of midfield) distributed across formation slots:
 
 <table border="1" class="dataframe">
   <thead>
@@ -220,74 +220,85 @@ distributed across formation slots
       <th>0</th>
       <td>1-0</td>
       <td>spot_1</td>
-      <td>0.0</td>
+      <td>3.0</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1-0</td>
       <td>spot_10</td>
-      <td>11.0</td>
+      <td>14.0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1-0</td>
       <td>spot_11</td>
-      <td>1.0</td>
+      <td>7.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1-0</td>
       <td>spot_2</td>
-      <td>17.0</td>
+      <td>15.0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1-0</td>
       <td>spot_3</td>
-      <td>2.0</td>
+      <td>4.0</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1-0</td>
       <td>spot_4</td>
-      <td>10.0</td>
+      <td>4.0</td>
     </tr>
     <tr>
       <th>6</th>
       <td>1-0</td>
       <td>spot_5</td>
-      <td>12.0</td>
+      <td>8.0</td>
     </tr>
     <tr>
       <th>7</th>
       <td>1-0</td>
       <td>spot_6</td>
-      <td>24.0</td>
+      <td>12.0</td>
     </tr>
     <tr>
       <th>8</th>
       <td>1-0</td>
       <td>spot_7</td>
-      <td>13.0</td>
+      <td>10.0</td>
     </tr>
     <tr>
       <th>9</th>
       <td>1-0</td>
       <td>spot_8</td>
-      <td>10.0</td>
+      <td>9.0</td>
     </tr>
     <tr>
       <th>10</th>
       <td>1-0</td>
       <td>spot_9</td>
-      <td>4.0</td>
+      <td>3.0</td>
     </tr>
   </tbody>
 </table>
 
-this gives a gini coefficient of X. 
-calculating this gini coefficient 
-for all source zones gives the following table
+Though spots 1, 3, and 11 
+(goalkeeper, left back and left forward in a 4-3-3 played by Man City here)
+don't really receive passes from this zone, the rest of the passes are 
+fairly well spread out.
+
+So we could have an estimate of how strictly this pattern follows 
+a simple version of the rigid algorithm by determining some sort of 
+concentration metric of these numbers, e. g. the gini coefficient. 
+These concrete numbers givee a gini coefficient of about 41%, 
+which is fairly low.
+Looking at calculated gini coefficients
+for all source zones of both teams gives the following table.
+Notice that the lowest gini score for Huddersfield is 46%, 
+so based on this metric Huddersfield seems the more rigid team.
 
 <table border="1" class="dataframe">
   <thead>
@@ -305,174 +316,152 @@ for all source zones gives the following table
       <th>0</th>
       <td>away</td>
       <td>0-0</td>
-      <td>433</td>
-      <td>16.0</td>
-      <td>0.675325</td>
+      <td>3421</td>
+      <td>21.0</td>
+      <td>0.300000</td>
     </tr>
     <tr>
       <th>1</th>
       <td>away</td>
       <td>0-1</td>
-      <td>433</td>
-      <td>43.0</td>
-      <td>0.376623</td>
+      <td>3421</td>
+      <td>40.0</td>
+      <td>0.555283</td>
     </tr>
     <tr>
       <th>2</th>
       <td>away</td>
       <td>0-2</td>
-      <td>433</td>
-      <td>32.0</td>
-      <td>0.480938</td>
+      <td>3421</td>
+      <td>27.0</td>
+      <td>0.276364</td>
     </tr>
     <tr>
       <th>3</th>
       <td>away</td>
       <td>1-0</td>
-      <td>433</td>
-      <td>108.0</td>
-      <td>0.409091</td>
+      <td>3421</td>
+      <td>90.0</td>
+      <td>0.290092</td>
     </tr>
     <tr>
       <th>4</th>
       <td>away</td>
       <td>1-1</td>
-      <td>433</td>
-      <td>176.0</td>
-      <td>0.354286</td>
+      <td>3421</td>
+      <td>98.0</td>
+      <td>0.359768</td>
     </tr>
     <tr>
       <th>5</th>
       <td>away</td>
       <td>1-2</td>
-      <td>433</td>
-      <td>99.0</td>
-      <td>0.539831</td>
+      <td>3421</td>
+      <td>59.0</td>
+      <td>0.440191</td>
     </tr>
     <tr>
       <th>6</th>
       <td>away</td>
       <td>2-0</td>
-      <td>433</td>
-      <td>87.0</td>
-      <td>0.484144</td>
+      <td>3421</td>
+      <td>85.0</td>
+      <td>0.435466</td>
     </tr>
     <tr>
       <th>7</th>
       <td>away</td>
       <td>2-1</td>
-      <td>433</td>
-      <td>52.0</td>
-      <td>0.430070</td>
+      <td>3421</td>
+      <td>46.0</td>
+      <td>0.301653</td>
     </tr>
     <tr>
       <th>8</th>
       <td>away</td>
       <td>2-2</td>
-      <td>433</td>
-      <td>51.0</td>
-      <td>0.527629</td>
+      <td>3421</td>
+      <td>81.0</td>
+      <td>0.413636</td>
     </tr>
     <tr>
       <th>9</th>
       <td>home</td>
       <td>0-0</td>
-      <td>451</td>
-      <td>8.0</td>
-      <td>0.750000</td>
+      <td>4411</td>
+      <td>16.0</td>
+      <td>0.602273</td>
     </tr>
     <tr>
       <th>10</th>
       <td>home</td>
       <td>0-1</td>
-      <td>451</td>
-      <td>19.0</td>
-      <td>0.565657</td>
+      <td>4411</td>
+      <td>25.0</td>
+      <td>0.595041</td>
     </tr>
     <tr>
       <th>11</th>
       <td>home</td>
       <td>0-2</td>
-      <td>451</td>
-      <td>11.0</td>
-      <td>0.595041</td>
+      <td>4411</td>
+      <td>19.0</td>
+      <td>0.606061</td>
     </tr>
     <tr>
       <th>12</th>
       <td>home</td>
       <td>1-0</td>
-      <td>451</td>
+      <td>4411</td>
       <td>18.0</td>
-      <td>0.460606</td>
+      <td>0.534759</td>
     </tr>
     <tr>
       <th>13</th>
       <td>home</td>
       <td>1-1</td>
-      <td>451</td>
-      <td>15.0</td>
-      <td>0.517483</td>
+      <td>4411</td>
+      <td>21.0</td>
+      <td>0.441558</td>
     </tr>
     <tr>
       <th>14</th>
       <td>home</td>
       <td>1-2</td>
       <td>4411</td>
-      <td>1.0</td>
-      <td>0.909091</td>
+      <td>22.0</td>
+      <td>0.537190</td>
     </tr>
     <tr>
       <th>15</th>
       <td>home</td>
-      <td>1-2</td>
-      <td>451</td>
-      <td>13.0</td>
-      <td>0.512397</td>
+      <td>2-0</td>
+      <td>4411</td>
+      <td>3.0</td>
+      <td>0.727273</td>
     </tr>
     <tr>
       <th>16</th>
       <td>home</td>
-      <td>2-0</td>
+      <td>2-1</td>
       <td>4411</td>
-      <td>0.0</td>
-      <td>NaN</td>
+      <td>3.0</td>
+      <td>0.818182</td>
     </tr>
     <tr>
       <th>17</th>
       <td>home</td>
-      <td>2-0</td>
-      <td>451</td>
-      <td>18.0</td>
-      <td>0.556150</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>home</td>
-      <td>2-1</td>
-      <td>4411</td>
-      <td>0.0</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>home</td>
-      <td>2-1</td>
-      <td>451</td>
-      <td>1.0</td>
-      <td>0.909091</td>
-    </tr>
-    <tr>
-      <th>20</th>
-      <td>home</td>
       <td>2-2</td>
-      <td>451</td>
-      <td>7.0</td>
-      <td>0.623377</td>
+      <td>4411</td>
+      <td>9.0</td>
+      <td>0.675325</td>
     </tr>
   </tbody>
 </table>
 
-which gives a weighted average
+Taking the weighted averages of the gini coefficients, and extending the 
+data with the pass success rates of the teams we can deduce a 
+notable difference in style.
 
 <table border="1" class="dataframe">
   <thead>
@@ -487,27 +476,52 @@ which gives a weighted average
     <tr>
       <th>0</th>
       <td>away</td>
-      <td>0.442414</td>
-      <td>0.864583</td>
+      <td>0.379717</td>
+      <td>0.818862</td>
     </tr>
     <tr>
       <th>1</th>
       <td>home</td>
-      <td>0.560358</td>
-      <td>0.523585</td>
+      <td>0.569547</td>
+      <td>0.578723</td>
     </tr>
   </tbody>
 </table>
 
+Of course many different style features can be defined on this rich dataset, 
+this example is serves a purpose in the next section.
 
-## Success Association
+## Style-Success Association
 
-Turns out the above defined rigidity of a teams performance
+Turns out, the above defined rigidity of a teams performance
 can be associated with its success, based on the opposition.
+
+Take this heatmap of win rates by the intersection of a teams 
+pass success rate and the opponents rigidity.
 
 ![style-heatmap](figures/heatmap.png)
 
-## Association to causation
+It would seem that when a team has low pass success rate, the opponents
+measure rigidity has no correlation with the win rate. However,
+when a team is accurate in it's passing, a strong association appears,
+with the more rigid the opponent, the more likely the well-passing team wins.
+
+The interesting challenge here of course, is identifying a casual relationship
+underlying this association.
+
+## Association to Causation
+
+### Observation
+
+The observation in the previous section can be stated as follows:
+
+> If team A's performance is characterised by high passing accuracy in a match, 
+> the more "rigid" the opponents performance is, the more likely it is 
+> that team A ends up winning the game
+
+with the [rigid](#rigidity) definition given above
+
+### Possible paths
 
 ## Entity Coreference
 

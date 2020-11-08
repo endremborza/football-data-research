@@ -52,6 +52,7 @@ def plot_success_bars(y_test_df, y_score):
         figsize=(13, 7)
     )
     plt.ylabel("rate of observations")
+    plt.tight_layout()
     plt.savefig(os.path.join(pass_success_model_eval_dir, "pred_bins.png"))
 
     prob_cats.loc[:, (slice(None), "mean")].pipe(

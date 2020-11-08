@@ -16,7 +16,7 @@ style_report_dir = os.path.join("reports", "style")
 
 style_pair_renamer = {
     "rate___self": "pass success rate",
-    "target_formation_slot___opposition___field_zone___source": "opposition rigidity",
+    "source_field_zone___opposition___formation_slot___target": "opposition rigidity",
 }
 
 
