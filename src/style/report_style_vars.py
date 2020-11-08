@@ -20,6 +20,18 @@ style_pair_renamer = {
 }
 
 
+def _make_fp(fp_str):
+    return os.path.join(style_report_dir, fp_str)
+
+
+class ExportedFiles:
+    heatmap = _make_fp("heatmap.png")
+    source_example = _make_fp("style_table.html")
+    all_ginis = _make_fp("all_ginis.html")
+    result_of_sample_match = _make_fp("result_of_sample_match.html")
+    style_agged = _make_fp("match_styles.html")
+
+
 def dump_heatmap(us_match_df: pd.DataFrame, style_df: pd.DataFrame):
 
     rel_matchups = (
@@ -46,7 +58,7 @@ def dump_heatmap(us_match_df: pd.DataFrame, style_df: pd.DataFrame):
         )
     )
     plt.tight_layout()
-    plt.savefig(os.path.join(style_report_dir, "heatmap.png"))
+    plt.savefig(ExportedFiles.heatmap)
     return (
         rel_matchups.groupby("wh_match_id")
         .std()
@@ -67,7 +79,7 @@ def export_style_report():
     match_id = dump_heatmap(us_match_df, style_df)
 
     simple_matches.set_index("wh_match_id").loc[[match_id], :].reset_index().to_html(
-        os.path.join(style_report_dir, "simple_match_sample.html")
+        ExportedFiles.result_of_sample_match
     )
 
     match_network_df = load_entire_network().loc[
@@ -96,9 +108,15 @@ def export_style_report():
         )
     )
 
-    df_for_style.reset_index().to_html(
-        os.path.join(style_report_dir, "style_table.html")
+    df_for_style.loc[lambda df: df["is_success"] > 13].iloc[[3], :].loc[
+        :, lambda df: df.columns.str.startswith("spot")
+    ].reset_index("source").reset_index(drop=True).melt(id_vars=["source"]).rename(
+        columns={"variable": "target", "value": "successful passes"}
+    ).to_html(
+        ExportedFiles.source_example
     )
+
+    df_for_style[["is_success", "gini"]].reset_index().to_html(ExportedFiles.all_ginis)
 
     df_for_style.assign(
         prod=lambda df: df[["is_success", "gini"]].prod(axis=1)
@@ -111,7 +129,7 @@ def export_style_report():
     ).iloc[
         :, -2:
     ].reset_index().to_html(
-        os.path.join(style_report_dir, "simple_result.html")
+        ExportedFiles.style_agged
     )
 
 

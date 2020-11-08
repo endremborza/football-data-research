@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import shap
-import yaml
 from sklearn.metrics import (
     ConfusionMatrixDisplay,
     RocCurveDisplay,
@@ -13,6 +12,7 @@ from sklearn.metrics import (
     confusion_matrix,
     f1_score,
     recall_score,
+    roc_auc_score,
     roc_curve,
 )
 
@@ -24,6 +24,7 @@ from src.pass_success_model.run_pass_success_model import (
 )
 
 pass_success_model_eval_dir = os.path.join("reports", "pass_success_model_evaluation")
+metric_table_fp = os.path.join(pass_success_model_eval_dir, "metrics.html")
 
 
 def get_metrics(y_test_df, preds, y_score):
@@ -74,6 +75,7 @@ def plot_cm(y_test_df, preds):
 def plot_roc(y_test_df, y_score, trained_pipeline):
     fpr, tpr, _ = roc_curve(y_test_df, y_score, pos_label=trained_pipeline.classes_[1])
     RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
+    plt.title(f"AUC: {roc_auc_score(y_test_df, y_score)}")
     plt.tight_layout()
     plt.savefig(os.path.join(pass_success_model_eval_dir, "roc.png"))
 
@@ -107,9 +109,9 @@ def dump_model_evaluation():
     preds = trained_pipeline.predict(x_test_df)
     pred_probas = trained_pipeline.predict_proba(x_test_df)
     y_score = pred_probas[:, 1]
-
-    with open(os.path.join(pass_success_model_eval_dir, "metrics.yaml"), "w") as fp:
-        yaml.dump(get_metrics(y_test_df, preds, y_score), fp)
+    pd.Series(get_metrics(y_test_df, preds, y_score)).rename(
+        "value"
+    ).to_frame().to_html(metric_table_fp)
 
     plot_success_bars(y_test_df, y_score)
     plot_cm(y_test_df, preds)
