@@ -90,8 +90,10 @@ report_style:
 final_report:
   cmd: python -m src final_report
   deps:
+  - path: reports/entity_coreference
+    md5: 069201bd304a87674d9eb203cb140a4e.dir
   - path: reports/main_report_frame.md
-    md5: 6eb1fbedd79a9d02a6128675f41ea867
+    md5: d63917fdb263dd6be09ecc1caf0473c3
   - path: reports/network_plots
     md5: 3ae77c63403f08b7a053c2a048a19032.dir
   - path: reports/pass_success_model_evaluation
@@ -99,7 +101,17 @@ final_report:
   - path: reports/style
     md5: 104e6fd6f18807de4c58ee5bb9cc1796.dir
   - path: src/final_report.py
-    md5: 41418276811363b1154bb85387c4f4f5
+    md5: 45c6fc11907a8ab20ff88a74a6f88bc5
   outs:
   - path: reports/figures
     md5: 643dea88c6868a8d6713b4543fc698bf.dir
+entity_coreference:
+  cmd: python -m src entity_coreference
+  deps:
+  - path: data/t2_raw
+    md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
+  - path: src/entity_coreference/run_entity_coreference.py
+    md5: f27a6da6b516fae02c13165617fa9be2
+  outs:
+  - path: reports/entity_coreference
+    md5: 069201bd304a87674d9eb203cb140a4e.dir

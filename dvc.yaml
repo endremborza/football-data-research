@@ -64,6 +64,7 @@ stages:
   final_report:
     cmd: python -m src final_report
     deps:
+    - reports/entity_coreference
     - reports/main_report_frame.md
     - reports/network_plots
     - reports/pass_success_model_evaluation
@@ -72,3 +73,10 @@ stages:
     outs:
     - reports/figures:
         cache: false
+  entity_coreference:
+    cmd: python -m src entity_coreference
+    deps:
+    - data/t2_raw
+    - src/entity_coreference/run_entity_coreference.py
+    outs:
+    - reports/entity_coreference

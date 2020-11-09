@@ -5,4 +5,5 @@
 - [evaluate_pass_success_model](https://github.com/endremborza/football-data-research/blob/main/src/pass_success_model/evaluate_model.py#L123)
 - [create_style_data](https://github.com/endremborza/football-data-research/blob/main/src/style/create_style_vars.py#L194)
 - [report_style](https://github.com/endremborza/football-data-research/blob/main/src/style/report_style_vars.py#L162)
-- [final_report](https://github.com/endremborza/football-data-research/blob/main/src/final_report.py#L61)
+- [entity_coreference](https://github.com/endremborza/football-data-research/blob/main/src/entity_coreference/run_entity_coreference.py#L18)
+- [final_report](https://github.com/endremborza/football-data-research/blob/main/src/final_report.py#L67)

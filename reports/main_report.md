@@ -552,9 +552,47 @@ and in the top third:
 </tr>
 </table>
 
+with the coefficient for `opposition rigidity` only significant in
+the top third case.
+
 ### Possible paths
+
+There are many possible causal models that are capable of producing 
+data like this. To list a few, with some explanation:
+
+- Teams develop a specific style of play 
+and certain styles suit certain opponents better.
+  - the key to wictory _is_ the difference in style
+- Some teams are more adaptive in style than others, 
+and the ones who can not adapt to a fluid playing style
+against an opponent with high pass success rate, lose.
+  - the key to victory is adaptability
+- The causal path is actually reversed: 
+a teams performance appears more rigid, when the team is losing
+more prominently against a side with accurate passing
+  - these style metrics have no impact on winning chances
+- players with better technical ability pass more accurately, 
+and when facing good players, other players more 
+likely produce a rigid performance.
+  - the key to victory is technical ability
+
+The point of this section is to find out which of these, or possible other
+causal explanation is most likely to generate data like the one we observed.
+
+To answer this, the data must be extended first
 
 ## Entity Coreference
 
+[this](https://github.com/endremborza/encoref) WIP package is used
+for entity coreference, mainly to match players.
+
+Matching is not a straightforward tasks, as lot of the names of teams or
+players dont match closely, so a sophisticated algorithm is needed
+to match these entities. A few examples can be seen in the next table, 
+of the difficult to match, but coreferent entities.
+
+
 
 ## Pipeline
+
+[entry points for pipeline elements](dvcdag.md)

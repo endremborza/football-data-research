@@ -35,4 +35,3 @@ step to a T2 tabular, tidy form in `data/t2_raw` serialized to parquet
 presented in this public repo is a sample dataset based on the scope of
 [this set](https://figshare.com/collections/Soccer_match_event_dataset/4415000/5)
 
-
