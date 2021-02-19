@@ -79,28 +79,19 @@ report_style:
   deps:
   - path: data/style
     md5: c1a554fe11fb249a05de04fdbef352b8.dir
-<<<<<<< HEAD
     size: 847143
     nfiles: 2
   - path: src/style/report_style_vars.py
     md5: bd6e015622435bdc733c8354b1bd949f
     size: 5118
-=======
-  - path: src/style/report_style_vars.py
-    md5: bd6e015622435bdc733c8354b1bd949f
->>>>>>> origin/main
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/style
-<<<<<<< HEAD
     md5: 23e64553cb9182344a78ab1ece3478cc.dir
     size: 104155
     nfiles: 7
-=======
-    md5: 104e6fd6f18807de4c58ee5bb9cc1796.dir
->>>>>>> origin/main
 final_report:
   cmd: python -m src final_report
   deps:
