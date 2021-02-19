@@ -1,0 +1,82 @@
+stages:
+  prepare_data_for_model:
+    cmd: python -m src prepare_data_for_model
+    outs:
+    - data/data_for_models
+    deps:
+    - data/t2_raw
+    - src/pass_success_model/prepare_data_for_modelling.py
+  train_pass_success_model:
+    cmd: python -m src train_pass_success_model
+    deps:
+    - data/data_for_models
+    - src/pass_success_model/run_pass_success_model.py
+    params:
+    - seed
+    - train_pass_success_model.split
+    outs:
+    - models/pass_success_lgbm.joblib
+  evaluate_pass_success_model:
+    cmd: python -m src evaluate_pass_success_model
+    deps:
+    - models/pass_success_lgbm.joblib
+    - src/pass_success_model/evaluate_model.py
+    params:
+    - seed
+    outs:
+    - reports/pass_success_model_evaluation
+  create_match_networks:
+    cmd: python -m src create_match_networks
+    deps:
+    - models/pass_success_lgbm.joblib
+    - src/network/create_network.py
+    params:
+    - seed
+    outs:
+    - data/networks
+  create_style_data:
+    cmd: python -m src create_style_data
+    deps:
+    - data/networks
+    - src/style/create_style_vars.py
+    params:
+    - seed
+    outs:
+    - data/style
+  plot_networks:
+    cmd: python -m src plot_networks
+    deps:
+    - data/networks
+    - src/network/present_network.py
+    params:
+    - seed
+    outs:
+    - reports/network_plots
+  report_style:
+    cmd: python -m src report_style
+    deps:
+    - data/style
+    - src/style/report_style_vars.py
+    params:
+    - seed
+    outs:
+    - reports/style
+  final_report:
+    cmd: python -m src final_report
+    deps:
+    - reports/entity_coreference
+    - reports/main_report_frame.md
+    - reports/network_plots
+    - reports/pass_success_model_evaluation
+    - reports/style
+    - src/final_report.py
+    outs:
+    - reports/figures:
+        cache: false
+  entity_coreference:
+    cmd: python -m src entity_coreference
+    deps:
+    - data/t2_raw
+    - src/entity_coreference/run_entity_coreference.py
+    outs:
+    - reports/entity_coreference

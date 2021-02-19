@@ -1,0 +1,4 @@
+seed: 42069
+
+train_pass_success_model:
+  split: 0.20

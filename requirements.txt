@@ -1,0 +1,17 @@
+pandas
+numpy
+scikit-learn
+invoke
+lightgbm
+joblib
+dvc
+pyyaml
+shap
+pillow
+networkx
+matplotlib
+seaborn
+statsmodels
+jupyter
+pyarrow
+pip>=20.2.4
