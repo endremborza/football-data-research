@@ -1,0 +1,7 @@
+
+[core]
+    remote = s3public
+['remote "s3sample"']
+    url = s3://football-data-sample-8401
+['remote "s3public"']
+    url = https://football-data-sample-8401.s3.amazonaws.com/
