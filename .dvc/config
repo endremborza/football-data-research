@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 [core]
     remote = s3public
 ['remote "s3sample"']
     url = s3://football-data-sample-8401
 ['remote "s3public"']
+<<<<<<< HEAD
     url = https://football-data-sample-8401.s3.amazonaws.com/
+=======
+    url = https://football-data-sample-8401.s3.amazonaws.com/
+>>>>>>> origin/main

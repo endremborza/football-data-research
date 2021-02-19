@@ -12,6 +12,9 @@ networkx
 matplotlib
 seaborn
 statsmodels
+<<<<<<< HEAD
 jupyter
 pyarrow
+=======
+>>>>>>> origin/main
 pip>=20.2.4
