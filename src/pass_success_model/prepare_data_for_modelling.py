@@ -26,7 +26,7 @@ bool_quals = [
     "goalkick",
 ]
 
-categ_vals = ["period", "event_side", "pass_direction_cat"]
+categ_vals = ["period", "event_side", "pass_direction_cat", "match_standing"]
 
 num_vals = [
     "x",
@@ -36,6 +36,8 @@ num_vals = [
     "length",
     "distance_from_opp_goal",
     "distance_from_own_goal",
+    "target_distance_from_opp_goal",
+    "target_distance_from_own_goal",
     "minute",
 ]
 
@@ -83,6 +85,60 @@ def get_pass_direction_category(df):
     )
 
 
+def add_match_status_cols(match_df):
+    return (
+        match_df.assign(
+            is_home_goal=lambda df: (df["event_side"] == "home")
+            & (df["type"] == "Goal"),
+            is_away_goal=lambda df: (df["event_side"] == "away")
+            & (df["type"] == "Goal"),
+        )
+        .assign(
+            home_goals=lambda df: df["is_home_goal"].cumsum(),
+            away_goals=lambda df: df["is_away_goal"].cumsum(),
+        )
+        .assign(
+            our_goals=lambda df: np.where(
+                df["event_side"] == "home", df["home_goals"], df["away_goals"]
+            ),
+            opp_goals=lambda df: np.where(
+                df["event_side"] == "away", df["home_goals"], df["away_goals"]
+            ),
+        )
+        .pipe(
+            lambda df: df.merge(
+                df.groupby("event_side")
+                .agg({"our_goals": "last", "opp_goals": "last"})
+                .rename(columns=lambda s: "final_" + s)
+                .reset_index()
+            )
+        )
+        .assign(
+            match_standing=lambda df: np.where(
+                df["our_goals"] > df["opp_goals"],
+                "winning",
+                np.where(df["our_goals"] < df["opp_goals"], "losing", "drawing"),
+            ),
+            match_result=lambda df: np.where(
+                df["final_our_goals"] > df["final_opp_goals"],
+                "won",
+                np.where(
+                    df["final_our_goals"] < df["final_opp_goals"], "lost", "drawn"
+                ),
+            ),
+        )
+    )
+
+
+def pre_filter_extension(season_df):
+    return pd.concat(
+        [
+            add_match_status_cols(match_df)
+            for _, match_df in season_df.groupby("wh_match_id")
+        ]
+    )
+
+
 def transform_event_data_to_pass_data(event_df: pd.DataFrame) -> pd.DataFrame:
     pass_period_ids = pd.Series(
         {
@@ -94,7 +150,8 @@ def transform_event_data_to_pass_data(event_df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return (
-        event_df.loc[lambda df: df["type"] == "Pass", :]
+        event_df.pipe(pre_filter_extension)
+        .loc[lambda df: df["type"] == "Pass", :]
         .dropna(how="all", axis=1)
         .assign(
             pass_direction_cat=get_pass_direction_category,
@@ -104,6 +161,12 @@ def transform_event_data_to_pass_data(event_df: pd.DataFrame) -> pd.DataFrame:
             )
             ** 0.5,
             distance_from_own_goal=lambda df: (df["x"] ** 2 + (df["y"] - 50) ** 2)
+            ** 0.5,
+            target_distance_from_opp_goal=lambda df: (
+                (df["passendx"] - 100) ** 2 + (df["passendy"] - 50) ** 2
+            )
+            ** 0.5,
+            target_distance_from_own_goal=lambda df: (df["passendx"] ** 2 + (df["passendy"] - 50) ** 2)
             ** 0.5,
             match_period_id=lambda df: pass_period_ids.reindex(df["period"]).values,
         )

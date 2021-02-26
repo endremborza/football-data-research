@@ -107,7 +107,7 @@ def extend_pass_network_base(network_base: pd.DataFrame):
     network_dfs = []
     for match_id, gdf in network_base.groupby("wh_match_id"):
         melted_formations = get_melted_formations(match_id, formation_uses_df)
-        merged = (
+        network_dfs.append(
             gdf.merge(
                 melted_formations.rename(columns={"value": "source_player"}), how="left"
             )
@@ -131,12 +131,17 @@ def extend_pass_network_base(network_base: pd.DataFrame):
                 )
             )
         )
+    return pd.concat(network_dfs)
 
+
+def create_aggregate_network(extended_network_base: pd.DataFrame):
+    final_dfs = []
+    for match_id, gdf in extended_network_base.groupby("wh_match_id"):
         merged_df_transformed = (
             pd.concat(
                 [
-                    merged.reindex([*bool_quals, target], axis=1).fillna(0),
-                    merged.loc[:, all_num_vals + categ_vals],
+                    gdf.reindex([*bool_quals, target], axis=1).fillna(0),
+                    gdf.loc[:, all_num_vals + categ_vals],
                 ],
                 axis=1,
             )
@@ -148,11 +153,11 @@ def extend_pass_network_base(network_base: pd.DataFrame):
         for cat_type in network_types:
             current_endpoints = [f"{s}_{cat_type}" for s in ["source", "target"]]
 
-            network_dfs.append(
+            final_dfs.append(
                 merged_df_transformed.assign(
-                    formation=merged["formation_name"],
-                    side=merged["event_side"],
-                    **{endp.split("_")[0]: merged[endp] for endp in current_endpoints},
+                    formation=gdf["formation_name"],
+                    side=gdf["event_side"],
+                    **{endp.split("_")[0]: gdf[endp] for endp in current_endpoints},
                 )
                 .groupby(["side", "source", "target", "formation"])
                 .agg(
@@ -169,7 +174,7 @@ def extend_pass_network_base(network_base: pd.DataFrame):
                 .assign(wh_match_id=match_id, network_type=cat_type)
             )
 
-    return pd.concat(network_dfs).fillna(0)
+    return pd.concat(final_dfs).fillna(0)
 
 
 def create_season_networks(season_id: str) -> pd.DataFrame:
@@ -178,6 +183,7 @@ def create_season_networks(season_id: str) -> pd.DataFrame:
         .pipe(transform_event_data_to_pass_data)
         .pipe(transform_passes_to_network_base)
         .pipe(extend_pass_network_base)
+        .pipe(create_aggregate_network)
         .assign(
             source=lambda df: df["source"].astype(str),
             target=lambda df: df["target"].astype(str),

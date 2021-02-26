@@ -68,7 +68,10 @@ def weighted_average_ginis(edge_end_ginis):
 
     return reduce(
         truediv,
-        map(inner_gb, (p_weights * edge_end_ginis.loc[:, weighed_cols], p_weights),),
+        map(
+            inner_gb,
+            (p_weights * edge_end_ginis.loc[:, weighed_cols], p_weights),
+        ),
     ).join(edge_end_ginis.drop(weighed_cols, axis=1).pipe(inner_gb))
 
 

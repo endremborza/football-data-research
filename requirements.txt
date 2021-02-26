@@ -14,4 +14,6 @@ seaborn
 statsmodels
 jupyter
 pyarrow
+plotly
+dash
 pip>=20.2.4
