@@ -106,11 +106,17 @@ def add_match_status_cols(match_df):
             ),
         )
         .pipe(
-            lambda df: df.merge(
-                df.groupby("event_side")
-                .agg({"our_goals": "last", "opp_goals": "last"})
-                .rename(columns=lambda s: "final_" + s)
-                .reset_index()
+            lambda df: pd.concat(
+                [
+                    df,
+                    df.groupby("event_side")
+                    .agg({"our_goals": "last", "opp_goals": "last"})
+                    .rename(columns=lambda s: "final_" + s)
+                    .reindex(df["event_side"].values)
+                    .assign(id=df.index)
+                    .set_index("id"),
+                ],
+                axis=1,
             )
         )
         .assign(
@@ -166,7 +172,9 @@ def transform_event_data_to_pass_data(event_df: pd.DataFrame) -> pd.DataFrame:
                 (df["passendx"] - 100) ** 2 + (df["passendy"] - 50) ** 2
             )
             ** 0.5,
-            target_distance_from_own_goal=lambda df: (df["passendx"] ** 2 + (df["passendy"] - 50) ** 2)
+            target_distance_from_own_goal=lambda df: (
+                df["passendx"] ** 2 + (df["passendy"] - 50) ** 2
+            )
             ** 0.5,
             match_period_id=lambda df: pass_period_ids.reindex(df["period"]).values,
         )
