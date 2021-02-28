@@ -97,8 +97,8 @@ class T2Data:
                             )
                         ).assign(
                             side=side,
-                            win=lambda _df: _df[f"self_goals_ft"]
-                            > _df[f"opposition_goals_ft"],
+                            win=lambda _df: _df["self_goals_ft"]
+                            > _df["opposition_goals_ft"],
                         )
                         for side, opp in [sides, sides[::-1]]
                     ]
