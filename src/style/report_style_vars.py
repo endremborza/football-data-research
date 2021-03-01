@@ -124,7 +124,7 @@ def export_style_report():
             ),
         ]
         .rename(columns=lambda s: s.replace(prefix, ""))
-        .drop("no_target", axis=1)
+        .drop("unknown_target", axis=1)
         .groupby(["side", "source", "formation"])
         .sum()
         .assign(

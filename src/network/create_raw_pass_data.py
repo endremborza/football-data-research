@@ -164,7 +164,7 @@ def extend_pass_network_base(network_base: pd.DataFrame):
             .pipe(
                 lambda df: df.assign(
                     **{
-                        col: df.loc[:, col].fillna("no_target")
+                        col: df.loc[:, col].fillna("unknown_target")
                         for col in df.columns
                         if col.startswith("target_")
                     }

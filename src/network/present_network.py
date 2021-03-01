@@ -16,7 +16,7 @@ def fix_no_target(gdf):
     return pd.concat(
         [
             gdf,
-            gdf.loc[lambda df: df["target"] == "no_target"].assign(
+            gdf.loc[lambda df: df["target"] == "unknown_target"].assign(
                 x=lambda df: df["passendx"],
                 y=lambda df: df["passendy"],
                 source=lambda df: df["target"],
@@ -112,7 +112,7 @@ def plot_top_networks():
         .merge(match_df)
         .merge(network_df)
         .pipe(rename_nodes, players)
-        .loc[lambda df: df["target"] != "no_target"]
+        .loc[lambda df: df["target"] != "unknown_target"]
     )
 
     full_gb_cols = [*gb_cols, *match_df.columns]

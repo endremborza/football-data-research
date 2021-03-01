@@ -36,7 +36,7 @@ def get_coeffs(df):
             gini_cat: df.loc[
                 :,
                 df.columns.str.startswith(f"cat__{gini_cat}")
-                & ~df.columns.str.endswith("no_target"),
+                & ~df.columns.str.endswith("unknown_target"),
             ].pipe(lambda _df: get_gini_for_rows(_df.values))
             for gini_cat in cats_for_gini
         },
@@ -96,7 +96,7 @@ def get_edge_end_ginis(network_df):
         .drop("player")
         .assign(
             is_success=lambda df: df["total"]
-            - df["cat__target_formation_slot__no_target"],
+            - df["cat__target_formation_slot__unknown_target"],  # TODO: not a correct way
             predicted_success_probability=lambda df: df["total"]
             * df["predicted_success_probability"],
         )
