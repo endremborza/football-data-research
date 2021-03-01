@@ -46,19 +46,19 @@ pass quite well, more in depth look at the predicted probabilities is needed
   <tbody>
     <tr>
       <th>accuracy</th>
-      <td>0.869118</td>
+      <td>0.869612</td>
     </tr>
     <tr>
       <th>recall</th>
-      <td>0.929158</td>
+      <td>0.926676</td>
     </tr>
     <tr>
       <th>f1</th>
-      <td>0.916511</td>
+      <td>0.916718</td>
     </tr>
     <tr>
       <th>brier</th>
-      <td>0.092654</td>
+      <td>0.092574</td>
     </tr>
   </tbody>
 </table>
@@ -194,11 +194,11 @@ Take the following match
   <tbody>
     <tr>
       <th>0</th>
-      <td>1190469</td>
-      <td>West Brom</td>
-      <td>Tottenham</td>
-      <td>1 : 0</td>
-      <td>2018-05-05</td>
+      <td>1190306</td>
+      <td>Huddersfield</td>
+      <td>Man City</td>
+      <td>1 : 2</td>
+      <td>2017-11-26</td>
     </tr>
   </tbody>
 </table>
@@ -220,67 +220,67 @@ One example of the away teams passes originating in zone `1-0`,
       <th>0</th>
       <td>1-0</td>
       <td>spot_1</td>
-      <td>3.0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1-0</td>
       <td>spot_10</td>
-      <td>14.0</td>
+      <td>11.0</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1-0</td>
       <td>spot_11</td>
-      <td>7.0</td>
+      <td>1.0</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1-0</td>
       <td>spot_2</td>
-      <td>15.0</td>
+      <td>17.0</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1-0</td>
       <td>spot_3</td>
-      <td>4.0</td>
+      <td>2.0</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1-0</td>
       <td>spot_4</td>
-      <td>4.0</td>
+      <td>10.0</td>
     </tr>
     <tr>
       <th>6</th>
       <td>1-0</td>
       <td>spot_5</td>
-      <td>8.0</td>
+      <td>13.0</td>
     </tr>
     <tr>
       <th>7</th>
       <td>1-0</td>
       <td>spot_6</td>
-      <td>12.0</td>
+      <td>24.0</td>
     </tr>
     <tr>
       <th>8</th>
       <td>1-0</td>
       <td>spot_7</td>
-      <td>10.0</td>
+      <td>13.0</td>
     </tr>
     <tr>
       <th>9</th>
       <td>1-0</td>
       <td>spot_8</td>
-      <td>9.0</td>
+      <td>10.0</td>
     </tr>
     <tr>
       <th>10</th>
       <td>1-0</td>
       <td>spot_9</td>
-      <td>3.0</td>
+      <td>7.0</td>
     </tr>
   </tbody>
 </table>
@@ -316,145 +316,169 @@ so based on this metric Huddersfield seems the more rigid team.
       <th>0</th>
       <td>away</td>
       <td>0-0</td>
-      <td>3421</td>
-      <td>21.0</td>
-      <td>0.300000</td>
+      <td>433</td>
+      <td>16.0</td>
+      <td>0.613636</td>
     </tr>
     <tr>
       <th>1</th>
       <td>away</td>
       <td>0-1</td>
-      <td>3421</td>
-      <td>40.0</td>
-      <td>0.555283</td>
+      <td>433</td>
+      <td>44.0</td>
+      <td>0.342975</td>
     </tr>
     <tr>
       <th>2</th>
       <td>away</td>
       <td>0-2</td>
-      <td>3421</td>
-      <td>27.0</td>
-      <td>0.276364</td>
+      <td>433</td>
+      <td>32.0</td>
+      <td>0.494318</td>
     </tr>
     <tr>
       <th>3</th>
       <td>away</td>
       <td>1-0</td>
-      <td>3421</td>
-      <td>90.0</td>
-      <td>0.290092</td>
+      <td>433</td>
+      <td>108.0</td>
+      <td>0.387205</td>
     </tr>
     <tr>
       <th>4</th>
       <td>away</td>
       <td>1-1</td>
-      <td>3421</td>
-      <td>98.0</td>
-      <td>0.359768</td>
+      <td>433</td>
+      <td>176.0</td>
+      <td>0.353306</td>
     </tr>
     <tr>
       <th>5</th>
       <td>away</td>
       <td>1-2</td>
-      <td>3421</td>
-      <td>59.0</td>
-      <td>0.440191</td>
+      <td>433</td>
+      <td>99.0</td>
+      <td>0.536272</td>
     </tr>
     <tr>
       <th>6</th>
       <td>away</td>
       <td>2-0</td>
-      <td>3421</td>
-      <td>85.0</td>
-      <td>0.435466</td>
+      <td>433</td>
+      <td>87.0</td>
+      <td>0.480669</td>
     </tr>
     <tr>
       <th>7</th>
       <td>away</td>
       <td>2-1</td>
-      <td>3421</td>
-      <td>46.0</td>
-      <td>0.301653</td>
+      <td>433</td>
+      <td>52.0</td>
+      <td>0.430070</td>
     </tr>
     <tr>
       <th>8</th>
       <td>away</td>
       <td>2-2</td>
-      <td>3421</td>
-      <td>81.0</td>
-      <td>0.413636</td>
+      <td>433</td>
+      <td>51.0</td>
+      <td>0.527629</td>
     </tr>
     <tr>
       <th>9</th>
       <td>home</td>
       <td>0-0</td>
-      <td>4411</td>
-      <td>16.0</td>
-      <td>0.602273</td>
+      <td>451</td>
+      <td>8.0</td>
+      <td>0.750000</td>
     </tr>
     <tr>
       <th>10</th>
       <td>home</td>
       <td>0-1</td>
-      <td>4411</td>
-      <td>25.0</td>
-      <td>0.595041</td>
+      <td>451</td>
+      <td>19.0</td>
+      <td>0.574163</td>
     </tr>
     <tr>
       <th>11</th>
       <td>home</td>
       <td>0-2</td>
-      <td>4411</td>
-      <td>19.0</td>
-      <td>0.606061</td>
+      <td>451</td>
+      <td>11.0</td>
+      <td>0.595041</td>
     </tr>
     <tr>
       <th>12</th>
       <td>home</td>
       <td>1-0</td>
-      <td>4411</td>
+      <td>451</td>
       <td>18.0</td>
-      <td>0.534759</td>
+      <td>0.484848</td>
     </tr>
     <tr>
       <th>13</th>
       <td>home</td>
       <td>1-1</td>
-      <td>4411</td>
-      <td>21.0</td>
-      <td>0.441558</td>
+      <td>451</td>
+      <td>15.0</td>
+      <td>0.387879</td>
     </tr>
     <tr>
       <th>14</th>
       <td>home</td>
       <td>1-2</td>
       <td>4411</td>
-      <td>22.0</td>
-      <td>0.537190</td>
+      <td>1.0</td>
+      <td>0.909091</td>
     </tr>
     <tr>
       <th>15</th>
       <td>home</td>
-      <td>2-0</td>
-      <td>4411</td>
-      <td>3.0</td>
-      <td>0.727273</td>
+      <td>1-2</td>
+      <td>451</td>
+      <td>13.0</td>
+      <td>0.559441</td>
     </tr>
     <tr>
       <th>16</th>
       <td>home</td>
-      <td>2-1</td>
+      <td>2-0</td>
       <td>4411</td>
-      <td>3.0</td>
-      <td>0.818182</td>
+      <td>0.0</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>17</th>
       <td>home</td>
-      <td>2-2</td>
+      <td>2-0</td>
+      <td>451</td>
+      <td>18.0</td>
+      <td>0.555556</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>home</td>
+      <td>2-1</td>
       <td>4411</td>
-      <td>9.0</td>
-      <td>0.675325</td>
+      <td>0.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>home</td>
+      <td>2-1</td>
+      <td>451</td>
+      <td>1.0</td>
+      <td>0.909091</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>home</td>
+      <td>2-2</td>
+      <td>451</td>
+      <td>7.0</td>
+      <td>0.623377</td>
     </tr>
   </tbody>
 </table>
@@ -476,14 +500,14 @@ notable difference in style.
     <tr>
       <th>0</th>
       <td>away</td>
-      <td>0.379717</td>
-      <td>0.818862</td>
+      <td>0.434450</td>
+      <td>0.863636</td>
     </tr>
     <tr>
       <th>1</th>
       <td>home</td>
-      <td>0.569547</td>
-      <td>0.578723</td>
+      <td>0.553645</td>
+      <td>0.521127</td>
     </tr>
   </tbody>
 </table>
@@ -531,10 +555,10 @@ for teams with pass success rate in the bottom two thirds:
            <td></td>              <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>opposition rigidity</th> <td>    0.6198</td> <td>    1.092</td> <td>    0.567</td> <td> 0.570</td> <td>   -1.521</td> <td>    2.760</td>
+  <th>opposition rigidity</th> <td>   -0.4118</td> <td>    1.087</td> <td>   -0.379</td> <td> 0.705</td> <td>   -2.543</td> <td>    1.719</td>
 </tr>
 <tr>
-  <th>const</th>               <td>   -0.8171</td> <td>    0.513</td> <td>   -1.593</td> <td> 0.111</td> <td>   -1.823</td> <td>    0.188</td>
+  <th>const</th>               <td>   -0.3037</td> <td>    0.501</td> <td>   -0.606</td> <td> 0.544</td> <td>   -1.286</td> <td>    0.678</td>
 </tr>
 </table>
 
@@ -545,10 +569,10 @@ and in the top third:
            <td></td>              <th>coef</th>     <th>std err</th>      <th>z</th>      <th>P>|z|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>opposition rigidity</th> <td>    3.6689</td> <td>    1.250</td> <td>    2.935</td> <td> 0.003</td> <td>    1.218</td> <td>    6.119</td>
+  <th>opposition rigidity</th> <td>    3.1209</td> <td>    1.288</td> <td>    2.423</td> <td> 0.015</td> <td>    0.597</td> <td>    5.645</td>
 </tr>
 <tr>
-  <th>const</th>               <td>   -1.6793</td> <td>    0.601</td> <td>   -2.793</td> <td> 0.005</td> <td>   -2.858</td> <td>   -0.501</td>
+  <th>const</th>               <td>   -1.4422</td> <td>    0.606</td> <td>   -2.379</td> <td> 0.017</td> <td>   -2.630</td> <td>   -0.254</td>
 </tr>
 </table>
 

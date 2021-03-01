@@ -1,3 +1,5 @@
 outs:
 - md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
   path: t2_raw
+  size: 35841014
+  nfiles: 15
