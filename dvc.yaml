@@ -28,7 +28,7 @@ stages:
   create_match_networks:
     cmd: python -m src create_match_networks
     deps:
-    - models/pass_success_lgbm.joblib
+    - data/pass-data
     - src/network/create_network.py
     params:
     - seed
@@ -80,3 +80,21 @@ stages:
     - src/entity_coreference/run_entity_coreference.py
     outs:
     - reports/entity_coreference
+  export_app_data:
+    cmd: python -m src export_app_data
+    deps:
+    - data/pass-data
+    - src/explore_app/export_app_data.py
+    params:
+    - seed
+    outs:
+    - data/app-data
+  export_raw_pass_data:
+    cmd: python -m src export_raw_pass_data
+    deps:
+    - models/pass_success_lgbm.joblib
+    - src/network/create_raw_pass_data.py
+    params:
+    - seed
+    outs:
+    - data/pass-data

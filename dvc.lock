@@ -3,120 +3,200 @@ prepare_data_for_model:
   deps:
   - path: data/t2_raw
     md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
+    size: 35841014
+    nfiles: 15
   - path: src/pass_success_model/prepare_data_for_modelling.py
-    md5: 76520fe687e3d066a273d9156a6afe73
+    md5: f64634e5efb9e8eeaa4aea15b6c88d5b
+    size: 6797
   outs:
   - path: data/data_for_models
-    md5: 311ee991eed840946d98caf25fde7537.dir
+    md5: f8221443af6522b5c9281553763a22c9.dir
+    size: 38038433
+    nfiles: 8
 train_pass_success_model:
   cmd: python -m src train_pass_success_model
   deps:
   - path: data/data_for_models
-    md5: 311ee991eed840946d98caf25fde7537.dir
+    md5: f8221443af6522b5c9281553763a22c9.dir
+    size: 38038433
+    nfiles: 8
   - path: src/pass_success_model/run_pass_success_model.py
     md5: b5c4319dcf7635d2b69eef4182a5247b
+    size: 1133
   params:
     params.yaml:
       seed: 42069
       train_pass_success_model.split: 0.2
   outs:
   - path: models/pass_success_lgbm.joblib
-    md5: 07392cd72dcde79175319aa03afb4835
+    md5: 60f2224eb9a058440e2a7f61e56bfae1
+    size: 350830
 evaluate_pass_success_model:
   cmd: python -m src evaluate_pass_success_model
   deps:
   - path: models/pass_success_lgbm.joblib
-    md5: 07392cd72dcde79175319aa03afb4835
+    md5: 60f2224eb9a058440e2a7f61e56bfae1
+    size: 350830
   - path: src/pass_success_model/evaluate_model.py
     md5: b4e31a1bcacf8fc7a00fcba414ad7731
+    size: 4183
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/pass_success_model_evaluation
-    md5: a1b0ca9d249f35ef5a6b300f5683d75f.dir
+    md5: 78be1449271112a0fca9d873844de200.dir
+    size: 224864
+    nfiles: 6
 create_match_networks:
   cmd: python -m src create_match_networks
   deps:
-  - path: models/pass_success_lgbm.joblib
-    md5: 07392cd72dcde79175319aa03afb4835
+  - path: data/pass-data
+    md5: f28eed094aaaca140a7253162a912c34.dir
+    size: 54168384
+    nfiles: 2
   - path: src/network/create_network.py
-    md5: 7388e26d8c80da6dc12d41abfe6fb3c3
+    md5: 0c9cd264c710c49ef1908f56b17d3842
+    size: 3661
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/networks
-    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
+    md5: 8d1408e9cae71bd5be20e96629fdcfdf.dir
+    size: 34072621
+    nfiles: 2
 create_style_data:
   cmd: python -m src create_style_data
   deps:
   - path: data/networks
-    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
+    md5: 8d1408e9cae71bd5be20e96629fdcfdf.dir
+    size: 34072621
+    nfiles: 2
   - path: src/style/create_style_vars.py
-    md5: f4afe9f2a02193d4ff65b255f71b77c8
+    md5: b51112d9938dfb6f6e026766f0428a3f
+    size: 6020
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: data/style
-    md5: c1a554fe11fb249a05de04fdbef352b8.dir
+    md5: b531421c4d171103ab5ef495ad18c573.dir
+    size: 852681
+    nfiles: 2
 plot_networks:
   cmd: python -m src plot_networks
   deps:
   - path: data/networks
-    md5: 082817930ccae8fcc41ea395a9ce14b9.dir
+    md5: 8d1408e9cae71bd5be20e96629fdcfdf.dir
+    size: 34072621
+    nfiles: 2
   - path: src/network/present_network.py
-    md5: 1758a9cae0ea57d11b2335c812a1b38c
+    md5: c621dc7e20acdd66578aa03ee98ce9fa
+    size: 3731
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/network_plots
-    md5: 3ae77c63403f08b7a053c2a048a19032.dir
+    md5: 28a16af484bd7fd6d6d722d551cb0d3f.dir
+    size: 23591557
+    nfiles: 6
 report_style:
   cmd: python -m src report_style
   deps:
   - path: data/style
-    md5: c1a554fe11fb249a05de04fdbef352b8.dir
-    size: 847143
+    md5: b531421c4d171103ab5ef495ad18c573.dir
+    size: 852681
     nfiles: 2
   - path: src/style/report_style_vars.py
-    md5: bd6e015622435bdc733c8354b1bd949f
-    size: 5118
+    md5: 11250658c8aebe73e37bc6d6ca3e5293
+    size: 5153
   params:
     params.yaml:
       seed: 42069
   outs:
   - path: reports/style
-    md5: 23e64553cb9182344a78ab1ece3478cc.dir
-    size: 104155
+    md5: 386611c3c4ec8a103e08931afd97d1f5.dir
+    size: 103759
     nfiles: 7
 final_report:
   cmd: python -m src final_report
   deps:
   - path: reports/entity_coreference
     md5: 069201bd304a87674d9eb203cb140a4e.dir
+    size: 0
+    nfiles: 1
   - path: reports/main_report_frame.md
     md5: d63917fdb263dd6be09ecc1caf0473c3
+    size: 9751
   - path: reports/network_plots
-    md5: 3ae77c63403f08b7a053c2a048a19032.dir
+    md5: 28a16af484bd7fd6d6d722d551cb0d3f.dir
+    size: 23591557
+    nfiles: 6
   - path: reports/pass_success_model_evaluation
-    md5: a1b0ca9d249f35ef5a6b300f5683d75f.dir
+    md5: 78be1449271112a0fca9d873844de200.dir
+    size: 224864
+    nfiles: 6
   - path: reports/style
-    md5: 104e6fd6f18807de4c58ee5bb9cc1796.dir
+    md5: 386611c3c4ec8a103e08931afd97d1f5.dir
+    size: 103759
+    nfiles: 7
   - path: src/final_report.py
     md5: 45c6fc11907a8ab20ff88a74a6f88bc5
+    size: 2358
   outs:
   - path: reports/figures
-    md5: 643dea88c6868a8d6713b4543fc698bf.dir
+    md5: 6e332771d027f1b3efd02ef6bd0a6418.dir
+    size: 23913406
+    nfiles: 12
 entity_coreference:
   cmd: python -m src entity_coreference
   deps:
   - path: data/t2_raw
     md5: b2b10fe905b4d2d23b965e6ede1d8e24.dir
+    size: 35841014
+    nfiles: 15
   - path: src/entity_coreference/run_entity_coreference.py
     md5: f27a6da6b516fae02c13165617fa9be2
+    size: 568
   outs:
   - path: reports/entity_coreference
     md5: 069201bd304a87674d9eb203cb140a4e.dir
+    size: 0
+    nfiles: 1
+export_app_data:
+  cmd: python -m src export_app_data
+  deps:
+  - path: data/pass-data
+    md5: f28eed094aaaca140a7253162a912c34.dir
+    size: 54168384
+    nfiles: 2
+  - path: src/explore_app/export_app_data.py
+    md5: dcbe991d6e7e36798b964c0d7461e3b0
+    size: 2372
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: data/app-data
+    md5: 2a41c905ba1880c1658d8f1eee9ed4f1.dir
+    size: 54267795
+    nfiles: 2
+export_raw_pass_data:
+  cmd: python -m src export_raw_pass_data
+  deps:
+  - path: models/pass_success_lgbm.joblib
+    md5: 60f2224eb9a058440e2a7f61e56bfae1
+    size: 350830
+  - path: src/network/create_raw_pass_data.py
+    md5: 90f4c6fd33c05cccede84543394dcecf
+    size: 7075
+  params:
+    params.yaml:
+      seed: 42069
+  outs:
+  - path: data/pass-data
+    md5: f28eed094aaaca140a7253162a912c34.dir
+    size: 54168384
+    nfiles: 2
