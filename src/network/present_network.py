@@ -112,7 +112,10 @@ def plot_top_networks():
         .merge(match_df)
         .merge(network_df)
         .pipe(rename_nodes, players)
-        .loc[lambda df: df["target"] != "unknown_target"]
+        .loc[
+            lambda df: ~df["target"].isin(["unknown_target", "unknown"])
+            & (df["source"] != "unknown")
+        ]
     )
 
     full_gb_cols = [*gb_cols, *match_df.columns]

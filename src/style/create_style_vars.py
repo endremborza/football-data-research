@@ -96,7 +96,9 @@ def get_edge_end_ginis(network_df):
         .drop("player")
         .assign(
             is_success=lambda df: df["total"]
-            - df["cat__target_formation_slot__unknown_target"],  # TODO: not a correct way
+            - df[
+                "cat__target_formation_slot__unknown"
+            ],  # TODO: not a correct way
             predicted_success_probability=lambda df: df["total"]
             * df["predicted_success_probability"],
         )
