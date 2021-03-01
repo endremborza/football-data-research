@@ -97,7 +97,7 @@ def get_melted_formations(match_id, formation_uses_df):
 def transform_passes_to_network_base(pass_df):
 
     model = load_trained_model()
-    pass_network_base = pass_df.assign(
+    return pass_df.assign(
         source_field_zone=lambda df: pd.cut(
             df["x"], bins=x_field_bins
         ).cat.codes.astype(str)
@@ -116,17 +116,36 @@ def transform_passes_to_network_base(pass_df):
             transform_pass_data_to_model_data(df).drop(target, axis=1)
         )[:, 1],
         predicted_success_bin=lambda df: pd.cut(
-            df["predicted_success_probability"], np.linspace(0, 1, 11)
-        ),
-    )
-    return pass_network_base
-
-
-def _filter_for_past(df):
-    return (df["minute"] >= df["start_minute"]) & (
-        df["match_period_id"] >= df["period_id"]
+            df["predicted_success_probability"],
+            np.linspace(0, 1, 11),
+            include_lowest=True,
+        ).astype(str),
     )
 
+
+def _is_future(df):
+    return (df["minute"] < df["start_minute"]) | (
+        df["match_period_id"] < df["period_id"]
+    )
+
+
+def get_slots(gdf, melted_formations, side):
+    inds = ["event_side", "eventid"]
+    return (
+        gdf.merge(
+            melted_formations.rename(columns={"value": f"{side}_player"}), how="left"
+        )
+        .assign(
+            start_minute=lambda df: df["start_minute"].fillna(0),
+            period_id=lambda df: df["period_id"].fillna(0),
+            is_future=_is_future,
+        )
+        .sort_values(["is_future", "period", "end_minute"])
+        .drop_duplicates(subset=inds, keep="first")
+        .set_index(inds)
+        .reindex(gdf[inds])["variable"]
+        .values
+    )
 
 def extend_pass_network_base(network_base: pd.DataFrame):
     formation_uses_df = T2Data.get_formation_use_df()
@@ -134,20 +153,10 @@ def extend_pass_network_base(network_base: pd.DataFrame):
     for match_id, gdf in network_base.groupby("wh_match_id"):
         melted_formations = get_melted_formations(match_id, formation_uses_df)
         network_dfs.append(
-            gdf.merge(
-                melted_formations.rename(columns={"value": "source_player"}), how="left"
-            )
-            .loc[_filter_for_past]
-            .rename(columns={"variable": "source_formation_slot"})
-            .merge(
-                melted_formations.rename(columns={"value": "target_player"}),
-                how="left",
-            )
-            .rename(columns={"variable": "target_formation_slot"})
-            .loc[_filter_for_past]
-            .sort_values(["period", "end_minute"])
-            .drop_duplicates(subset=["event_side", "eventid"], keep="first")
-            .pipe(
+            gdf.assign(
+                source_formation_slot=get_slots(gdf, melted_formations, "source"),
+                target_formation_slot=get_slots(gdf, melted_formations, "target"),
+            ).pipe(
                 lambda df: df.assign(
                     **{
                         col: df.loc[:, col].fillna("no_target")
@@ -164,7 +173,7 @@ def add_chains(df):
     return pd.concat(
         [
             get_chains(gdf)
-            for _, gdf in gdf.groupby(["wh_match_id", "period", "event_side"])
+            for _, gdf in df.groupby(["wh_match_id", "period", "event_side"])
         ]
     )
 
@@ -176,6 +185,13 @@ def create_pass_data(season_id):
         .pipe(transform_passes_to_network_base)
         .pipe(extend_pass_network_base)
         .pipe(add_chains)
+        .assign(
+            source_player=lambda df: df["source_player"].astype(str),
+            target_player=lambda df: df["target_player"].astype(str),
+            prev_pass_target_player=lambda df: df["prev_pass_target_player"].astype(
+                str
+            ),
+        )  # TODO
     )
 
 
