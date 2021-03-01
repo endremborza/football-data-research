@@ -131,7 +131,7 @@ def _is_future(df):
 
 def get_slots(gdf, melted_formations, side):
     inds = ["event_side", "eventid"]
-    return (
+    joined_formations = (
         gdf.merge(
             melted_formations.rename(columns={"value": f"{side}_player"}), how="left"
         )
@@ -143,9 +143,15 @@ def get_slots(gdf, melted_formations, side):
         .sort_values(["is_future", "period", "end_minute"])
         .drop_duplicates(subset=inds, keep="first")
         .set_index(inds)
-        .reindex(gdf[inds])["variable"]
-        .values
+        .reindex(gdf[inds])
     )
+    if side == "source":
+        return gdf.assign(
+            source_formation_slot=joined_formations["variable"].values,
+            formation_name=joined_formations["formation_name"].values,
+        )
+    return gdf.assign(target_formation_slot=joined_formations["variable"].values)
+
 
 def extend_pass_network_base(network_base: pd.DataFrame):
     formation_uses_df = T2Data.get_formation_use_df()
@@ -153,10 +159,9 @@ def extend_pass_network_base(network_base: pd.DataFrame):
     for match_id, gdf in network_base.groupby("wh_match_id"):
         melted_formations = get_melted_formations(match_id, formation_uses_df)
         network_dfs.append(
-            gdf.assign(
-                source_formation_slot=get_slots(gdf, melted_formations, "source"),
-                target_formation_slot=get_slots(gdf, melted_formations, "target"),
-            ).pipe(
+            gdf.pipe(get_slots, melted_formations, "target")
+            .pipe(get_slots, melted_formations, "source")
+            .pipe(
                 lambda df: df.assign(
                     **{
                         col: df.loc[:, col].fillna("no_target")
