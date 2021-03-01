@@ -144,6 +144,7 @@ def get_slots(gdf, melted_formations, side):
         .drop_duplicates(subset=inds, keep="first")
         .set_index(inds)
         .reindex(gdf[inds])
+        .fillna("unknown")
     )
     if side == "source":
         return gdf.assign(
