@@ -4,3 +4,7 @@
     url = s3://football-data-sample-8401
 ['remote "s3public"']
     url = https://football-data-sample-8401.s3.amazonaws.com/
+['remote "anetremote"']
+    url = ssh://anetcloud/mnt/data/football-project/dvc-source
+['remote "anetlocal"']
+    url = /mnt/data/football-project/dvc-source
