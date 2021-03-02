@@ -124,9 +124,10 @@ def get_triads(network_df, top_n=10):
     triads = (
         network_df.loc[lambda df: df[chan_ind_col] > 1, [*edge_ends, last_ind]]
         .assign(
-            root_source=lambda df: network_df.loc[
-                df.loc[:, last_ind], edge_ends[0]
-            ].values
+            root_source=lambda df: network_df.reindex(df.loc[:, last_ind])
+            .loc[:, edge_ends[0]]
+            .dropna()
+            .values
         )
         .drop(last_ind, axis=1)
         .sort_index(axis=1)
