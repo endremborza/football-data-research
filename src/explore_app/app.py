@@ -126,9 +126,9 @@ def get_triads(network_df, top_n=10):
         .assign(
             root_source=lambda df: network_df.reindex(df.loc[:, last_ind])
             .loc[:, edge_ends[0]]
-            .dropna()
             .values
         )
+        .dropna()
         .drop(last_ind, axis=1)
         .sort_index(axis=1)
     )
@@ -376,6 +376,9 @@ def get_app():
     )
     def filt(*chvals):
 
+        import time
+        stime = time.time()
+
         filt_arr = np.array([True] * app_data.shape[0])
         for c, vals in zip(chl_cols, chvals):
             filt_arr &= app_data.loc[:, c].isin(vals)
@@ -412,6 +415,8 @@ def get_app():
                 className="col-md-6",
             ),
         ]
+
+        print("CALCTIME: ", time.time() - stime)
 
         return fig, html.Div(bars, className="row"), iads
 
