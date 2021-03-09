@@ -16,4 +16,5 @@ jupyter
 pyarrow
 plotly
 dash
+daskpeeker
 pip>=20.2.4

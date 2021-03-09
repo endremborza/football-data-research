@@ -17,7 +17,9 @@ from sklearn.metrics import (
 )
 
 from src.dvc_util import PipelineElement
-from src.pass_success_model.prepare_data_for_modelling import load_all_model_data
+from src.pass_success_model.prepare_data_for_modelling import (
+    load_all_model_data,
+)
 from src.pass_success_model.run_pass_success_model import (
     load_trained_model,
     run_pass_model_pe,

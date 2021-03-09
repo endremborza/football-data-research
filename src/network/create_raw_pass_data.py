@@ -1,6 +1,5 @@
 import glob
 import os
-
 from functools import reduce
 
 import numpy as np
@@ -8,14 +7,14 @@ import pandas as pd
 
 from src.data_loaders import T2Data, get_season_events, reduce_append
 from src.dvc_util import PipelineElement
-from src.pass_success_model.run_pass_success_model import (
-    run_pass_model_pe,
-    load_trained_model,
-)
 from src.pass_success_model.prepare_data_for_modelling import (
     target,
     transform_event_data_to_pass_data,
     transform_pass_data_to_model_data,
+)
+from src.pass_success_model.run_pass_success_model import (
+    load_trained_model,
+    run_pass_model_pe,
 )
 
 pass_dir = os.path.join("data", "pass-data")
@@ -26,6 +25,8 @@ y_field_bins = x_field_bins
 MAX_TIME_FOR_CONSEQ = 3
 
 last_pass_col = ["is_success", "target_player", "fullsec"]
+chain_len_col = "chain_len"
+chain_num_col = "n_in_chain"
 
 conscol = "is_conseq"
 
@@ -33,8 +34,10 @@ conscol = "is_conseq"
 def get_seq_lengths(df):
     seq_gb = df.assign(seq_id=(~df.loc[:, conscol]).cumsum()).groupby("seq_id")[conscol]
     return df.assign(
-        n_in_chain=seq_gb.transform("cumsum") + df["is_success"],
-        chain_len=seq_gb.transform("count"),
+        **{
+            chain_num_col: seq_gb.transform("cumsum") + df["is_success"],
+            chain_len_col: seq_gb.transform("count"),
+        },
     )
 
 

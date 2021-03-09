@@ -189,7 +189,7 @@ def load_all_style_data() -> pd.DataFrame:
     return pd.concat(
         [
             pd.read_parquet(f)
-            for f in glob.glob(os.path.join(style_data_dir, f"*.parquet"))
+            for f in glob.glob(os.path.join(style_data_dir, "*.parquet"))
         ]
     ).fillna(0)
 

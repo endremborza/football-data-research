@@ -13,6 +13,7 @@ from src.pass_success_model.prepare_data_for_modelling import (
     num_vals,
     target,
 )
+
 from .create_raw_pass_data import export_pass_data_pe, load_season_passes
 
 network_dir = os.path.join("data", "networks")

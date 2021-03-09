@@ -1,16 +1,19 @@
+import glob
 import os
 import shutil
-import glob
 
 from .dvc_util import PipelineElement
+from .entity_coreference.run_entity_coreference import (
+    coref_example_table_fp,
+    coref_pe,
+)
+from .network.present_network import network_plot_dir, plot_network_pe
 from .pass_success_model.evaluate_model import (
     eval_pass_model_pe,
     metric_table_fp,
     pass_success_model_eval_dir,
 )
-from .network.present_network import plot_network_pe, network_plot_dir
-from .style.report_style_vars import report_style_pe, ExportedFiles
-from .entity_coreference.run_entity_coreference import coref_example_table_fp, coref_pe
+from .style.report_style_vars import ExportedFiles, report_style_pe
 
 link_base = "https://github.com/endremborza/football-data-research/blob/main/{}#L{}"
 

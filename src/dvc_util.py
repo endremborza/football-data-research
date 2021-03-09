@@ -1,6 +1,6 @@
+import os
 import random
 import traceback
-import os
 from dataclasses import dataclass, field
 from typing import Iterable, List, Optional, Union
 

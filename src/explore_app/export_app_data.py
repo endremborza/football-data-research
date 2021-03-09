@@ -1,16 +1,17 @@
 import glob
 import os
-
 from functools import reduce
 
-from tqdm.notebook import tqdm
-import pandas as pd
 import numpy as np
-
-from src.dvc_util import PipelineElement
-from src.network.create_raw_pass_data import export_pass_data_pe, load_season_passes
+import pandas as pd
+from tqdm.notebook import tqdm
 
 from src.data_loaders import T2Data, reduce_append
+from src.dvc_util import PipelineElement
+from src.network.create_raw_pass_data import (
+    export_pass_data_pe,
+    load_season_passes,
+)
 
 app_dir = os.path.join("data", "app-data")
 

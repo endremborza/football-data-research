@@ -1,16 +1,17 @@
 import os
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import statsmodels.api as sm
-import matplotlib.pyplot as plt
 
+from src.data_loaders import T2Data
 from src.dvc_util import PipelineElement
 from src.network.create_network import load_entire_network
-from src.data_loaders import T2Data
 from src.style.create_style_vars import (
-    load_all_style_data,
-    get_gini_for_rows,
     create_style_data_pe,
+    get_gini_for_rows,
+    load_all_style_data,
 )
 
 style_report_dir = os.path.join("reports", "style")
