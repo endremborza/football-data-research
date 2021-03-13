@@ -17,4 +17,5 @@ pyarrow
 plotly
 dash
 daskpeeker
+python-dotenv
 pip>=20.2.4

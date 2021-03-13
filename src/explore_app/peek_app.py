@@ -1,3 +1,4 @@
+import os
 import re
 
 import dask.dataframe as dd
@@ -12,6 +13,8 @@ from daskpeeker import (
     StandaloneFigure,
     Table,
 )
+from dotenv import load_dotenv
+from structlog import get_logger
 
 from ..network.create_raw_pass_data import chain_len_col, chain_num_col
 from .create_figure import get_network_figure
@@ -21,6 +24,11 @@ from .export_app_data import (
     load_entire_app_data,
     loc_cols,
 )
+
+load_dotenv(override=True)
+logger = get_logger()
+
+SCH_ADDR_KEY = "SCHEDULER_ADDRESS"
 
 pass_dir_cat_col = "pass_direction_cat"
 
@@ -73,20 +81,17 @@ class FootballPeeker(Peeker):
 
 
 def get_peeker():
-    print("getting peeker")
+    logger.info("getting new peeker")
     try:
-        scheduler_address = re.compile("> Scheduler (.*) </").findall(
-            requests.get("http://127.0.0.1:8787/info/main/workers.html").content.decode(
-                "utf-8"
-            )
-        )[0]
-
+        scheduler_address = os.environ[SCH_ADDR_KEY]
         client = get_client(scheduler_address)
     except Exception as e:
-        print("new client started: ", e)
+        logger.info("starting new dask client", exception=str(e))
         client = Client()
+        with open(".env", "w") as fp:
+            fp.write(f"{SCH_ADDR_KEY}={client.scheduler.address}")
     n_part = sum(client.nthreads().values())
-    print(client.dashboard_link)
+    logger.info("dask client acquired", dashboard=client.dashboard_link, scheduler=client.scheduler.address, n_threads=n_part)
 
     app_data = load_entire_app_data()
     ddf = dd.from_pandas(app_data, npartitions=n_part).persist()

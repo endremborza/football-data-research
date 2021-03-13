@@ -1,7 +1,8 @@
 from invoke import task
 
 from src import PipelineElement
-from src.explore_app.app import get_app
+from src.explore_app.peek_app import get_peeker
+
 
 tasks = []
 for pe in PipelineElement.all_instances():
@@ -24,4 +25,4 @@ def dag(c):
 
 @task
 def explore_app(c):
-    get_app().run_server(debug=True, use_reloader=False)
+    get_peeker().run(port_no=5666, debug=False)
