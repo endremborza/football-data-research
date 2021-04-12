@@ -36,6 +36,8 @@ run a regression on the similarity measure of the 18 games and take the paramete
 
 ## Results
 
+1158 observations
+
 ### Specific space
 
 space columns: `['pass_success_rate', 'ballrecovery_dist_from_opp_goal']`
