@@ -20,7 +20,7 @@ the question is which of these 18 performances a team chooses to emulate and how
 
 ### Weighted similarity
 
-simply measure similarity to style using euclidean distance
+simply measure similarity to style of these 18 observations using euclidean distance
 
 - `my_game-weighted_similarity`: mean similarity to style of my team's past games weighted by success (final goal difference)
 - `not_my_game-weighted_similarity`: mean similarity to style of team x's opponents in the last 9 games weighted by success
@@ -36,7 +36,14 @@ run a regression on the similarity measure of the 18 games and take the paramete
 
 ## Results
 
-1158 observations
+simple OLS regression
+
+- target: `won` dummy
+- 1158 observations (match × side)
+- `my_win_rate` win rate in last 9 games
+- `opps_opp_win_rate` loss rate of opposition
+- every variable starting with `opposition-` is the same variable for the opposition tame of the match
+
 
 ### Specific space
 
