@@ -1,7 +1,6 @@
+# Data Profiles
 
-        # Data Profiles
-
-        [team_fixtures data report](team_fixtures.html)
+- [team_fixtures data report](team_fixtures.html)
 - [player_fixtures data report](player_fixtures.html)
 - [players data report](players.html)
 - [extended_events data report](extended_events.html)
